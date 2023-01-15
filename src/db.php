@@ -26,7 +26,6 @@
             $password = $config['db']['password'];
 
             $this->init($type, $host, $name, $user, $password);
-            $this->createTablesIfNotExists();
         }
 
         private function init($type, $host, $name, $user, $password) {
@@ -35,12 +34,14 @@
                     array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
                 $this->prepareStatements();
+                $this->createTableStudents();
+                $this->createTableTokens();
             } catch(PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
             }
         }
 
-        private function createTablesIfNotExists(){
+        private function prepareStatements() {
             $sql = "CREATE TABLE IF NOT EXISTS users(
                 id int(11) NOT NULL AUTO_INCREMENT,
                 username varchar(50) NOT NULL,
@@ -48,38 +49,17 @@
                 pass varchar(50) NOT NULL,
                 create_datetime datetime,
                 PRIMARY KEY (id)
-               )"
-            $this->connection->prepare($sql)->execute();
+               )";
+            $this->tableStudents = $this->connection->prepare($sql);
             
             $sql = "CREATE TABLE IF NOT EXISTS tokens(
                 token varchar(10),
                 user_id int(11) NOT NULL,
                 expires varchar(50) NOT NULL,
                 PRIMARY KEY (user_id)
-               )"
-            $this->connection->prepare($sql)->execute();
+               )";
+            $this->tableTokens = $this->connection->prepare($sql);
             
-        }
-
-        public function createTableStudents() {
-            try {
-                $this->tableTokens->execute();
-                return ["success" => true];
-            } catch(PDOException $e) {
-                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
-            }
-        }
-
-        public function createTableStudents() {
-            try {
-                $this->tablesquery->execute();
-                return ["success" => true];
-            } catch(PDOException $e) {
-                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
-            }
-        }
-
-        private function prepareStatements() {
             // $sql = "INSERT INTO marks(studentFN, mark) VALUES(:fn, :mark)";
             // $this->insertMark = $this->connection->prepare($sql);
 
@@ -109,6 +89,24 @@
 
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
             // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
+        }
+
+        public function createTableStudents() {
+            try {
+                $this->tableStudents->execute();
+                return ["success" => true];
+            } catch(PDOException $e) {
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function createTableTokens() {
+            try {
+                $this->tableTokens->execute();
+                return ["success" => true];
+            } catch(PDOException $e) {
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
         }
 
         public function selectStudentsWithMarksQuery() {
