@@ -65,7 +65,7 @@
         }
 
         public function createUser($passwordHash, $email) {
-            $query = $this->db->insertUserQuery(['username' => $this->username, 'password' => $passwordHash, 'email' => $email]);
+            $query = $this->db->insertUserQuery(['username' => $this->username, 'email' => $email,'pass' => $passwordHash]);
 
             if ($query['success']) {
                 $this->password = $passwordHash;

@@ -47,7 +47,6 @@
                 username varchar(50) NOT NULL,
                 email varchar(50) NOT NULL,
                 pass varchar(50) NOT NULL,
-                create_datetime datetime,
                 PRIMARY KEY (id)
                )";
             $this->tableStudents = $this->connection->prepare($sql);
@@ -83,8 +82,8 @@
 
             $sql = "SELECT * FROM tokens WHERE token=:token";
             $this->selectToken = $this->connection->prepare($sql);
-
-            $sql = "INSERT INTO users(username, password, email) VALUES (:username, :password, :email)";
+            
+            $sql = "INSERT INTO users(username, email, pass) VALUES (:username, :email, :pass)";
             $this->insertUser = $this->connection->prepare($sql);
 
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
@@ -229,7 +228,7 @@
 
                 return ["success" => true];
             } catch(PDOException $e) {
-                $this->connection->rollBack();
+                //$this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
