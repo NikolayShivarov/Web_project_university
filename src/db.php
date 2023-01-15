@@ -1,6 +1,7 @@
 <?php
     class Database {
         private $connection;
+        private $database;
         private $insertMark;
         private $selectMark;
         private $selectMarks;
@@ -12,6 +13,9 @@
         private $insertUser;
         private $selectStudentsWithMarks;
 
+        private $tableStudents;
+        private $tableTokens;
+
         public function __construct() {
             $config = parse_ini_file('../config/config.ini', true);
 
@@ -22,6 +26,7 @@
             $password = $config['db']['password'];
 
             $this->init($type, $host, $name, $user, $password);
+            $this->createTablesIfNotExists();
         }
 
         private function init($type, $host, $name, $user, $password) {
@@ -35,18 +40,57 @@
             }
         }
 
+        private function createTablesIfNotExists(){
+            $sql = "CREATE TABLE IF NOT EXISTS users(
+                id int(11) NOT NULL AUTO_INCREMENT,
+                username varchar(50) NOT NULL,
+                email varchar(50) NOT NULL,
+                pass varchar(50) NOT NULL,
+                create_datetime datetime,
+                PRIMARY KEY (id)
+               )"
+            $this->connection->prepare($sql)->execute();
+            
+            $sql = "CREATE TABLE IF NOT EXISTS tokens(
+                token varchar(10),
+                user_id int(11) NOT NULL,
+                expires varchar(50) NOT NULL,
+                PRIMARY KEY (user_id)
+               )"
+            $this->connection->prepare($sql)->execute();
+            
+        }
+
+        public function createTableStudents() {
+            try {
+                $this->tableTokens->execute();
+                return ["success" => true];
+            } catch(PDOException $e) {
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function createTableStudents() {
+            try {
+                $this->tablesquery->execute();
+                return ["success" => true];
+            } catch(PDOException $e) {
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
         private function prepareStatements() {
-            $sql = "INSERT INTO marks(studentFN, mark) VALUES(:fn, :mark)";
-            $this->insertMark = $this->connection->prepare($sql);
+            // $sql = "INSERT INTO marks(studentFN, mark) VALUES(:fn, :mark)";
+            // $this->insertMark = $this->connection->prepare($sql);
 
-            $sql = "SELECT * FROM marks WHERE studentFn = :fn";
-            $this->selectMark = $this->connection->prepare($sql);
+            // $sql = "SELECT * FROM marks WHERE studentFn = :fn";
+            // $this->selectMark = $this->connection->prepare($sql);
 
-            $sql = "SELECT * FROM marks";
-            $this->selectMarks = $this->connection->prepare($sql);
+            // $sql = "SELECT * FROM marks";
+            // $this->selectMarks = $this->connection->prepare($sql);
 
-            $sql = "SELECT * FROM students WHERE fn = :fn";
-            $this->selectStudent = $this->connection->prepare($sql);
+            // $sql = "SELECT * FROM students WHERE fn = :fn";
+            // $this->selectStudent = $this->connection->prepare($sql);
 
             $sql = "SELECT * FROM users WHERE username = :username";
             $this->selectUser = $this->connection->prepare($sql);
@@ -63,8 +107,8 @@
             $sql = "INSERT INTO users(username, password, email) VALUES (:username, :password, :email)";
             $this->insertUser = $this->connection->prepare($sql);
 
-            $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
-            $this->selectStudentsWithMarks = $this->connection->prepare($sql);
+            // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
+            // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
         }
 
         public function selectStudentsWithMarksQuery() {
