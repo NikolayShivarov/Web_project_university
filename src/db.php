@@ -15,6 +15,8 @@
 
         private $tableStudents;
         private $tableTokens;
+        private $tableQuestions;
+        private $tableTests;
 
         public function __construct() {
             $config = parse_ini_file('../config/config.ini', true);
@@ -36,6 +38,8 @@
                 $this->prepareStatements();
                 $this->createTableStudents();
                 $this->createTableTokens();
+                $this->createTableTests();
+                $this->createTableQuestions();
             } catch(PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
             }
@@ -58,6 +62,27 @@
                 PRIMARY KEY (user_id)
                )";
             $this->tableTokens = $this->connection->prepare($sql);
+
+            $sql = "CREATE TABLE IF NOT EXISTS tests(
+                id int(11) NOT NULL AUTO_INCREMENT,
+                testname varchar(30),
+                PRIMARY KEY (id)
+               )";
+            $this->tabeTests = $this->connection->prepare($sql);
+
+            $sql = "CREATE TABLE IF NOT EXISTS questions(
+                test_id int(11) NOT NULL,
+                questiontext varchar(100) NOT NULL,
+                answer1 varchar(50),
+                answer2 varchar(50),
+                answer3 varchar(50),
+                answer4 varchar(50),
+                answer5 varchar(50),
+                answer6 varchar(50),
+                correctAnswer int(11),
+                PRIMARY KEY (id)
+               )";
+            $this->tableQuestions = $this->connection->prepare($sql);
             
             // $sql = "INSERT INTO marks(studentFN, mark) VALUES(:fn, :mark)";
             // $this->insertMark = $this->connection->prepare($sql);
@@ -88,6 +113,24 @@
 
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
             // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
+        }
+
+        public function createTableTests() {
+            try {
+                $this->tabeTests->execute();
+                return ["success" => true];
+            } catch(PDOException $e) {
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function createTableQuestions() {
+            try {
+                $this->tableQuestions->execute();
+                return ["success" => true];
+            } catch(PDOException $e) {
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
         }
 
         public function createTableStudents() {

@@ -14,6 +14,7 @@
             $this->password = $password;
 
             $this->db = new Database();
+            $this->exists();
         }
 
         public function getUsername() {
@@ -35,7 +36,7 @@
                 $userData = $selectUser['data']->fetch(PDO::FETCH_ASSOC);
 
                 if ($userData) {
-                    $this->password = $userData['password'];
+                    $this->password = $userData['pass'];
                     $this->email = $userData['email'];
                     $this->userId = $userData['id'];
 
@@ -49,13 +50,15 @@
         }
 
         public function isValid($password) {
-            $query = $this->db->selectUserQuery(["user" => $this->username]);
-
+            $query = $this->db->selectUserQuery(["username" => $this->username]);
+            
             if ($query["success"]) {
                 $user = $query["data"]->fetch(PDO::FETCH_ASSOC);
-
+                
                 if ($user) {
-                    return password_verify($this->password, $user['password']);
+                    //$passwordHash = password_hash($password, PASSWORD_DEFAULT);
+                    //echo $password . " && " . $this->password . " TEST: " . $passwordHash . " another test " . $user['pass'];
+                    return password_verify($password, $user['pass']);
                 } else {
                     return false;
                 }             
