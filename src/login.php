@@ -1,35 +1,64 @@
 <?php
+    require_once 'user.php';
+    require_once 'testInputUtility.php';
+    require_once 'tokenUtility.php';
+
+    header('Content-type: application/json');
+
+    session_start();
+
     $errors = [];
 
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        header('Location: ../login.html');
-    } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = isset($_POST['username']) ? testInput($_POST['username']) : '';
-        $password = isset($_POST['password']) ? testInput($_POST['password']) : '';
+    if ($_POST) {
+        $data = json_decode($_POST['data'], true);
 
-        if ($username === '') {
-            $errors[] = 'Please input username';
+        $username = isset($data['userName']) ? testInput($data['userName']) : '';
+        $password = isset($data['password']) ? testInput($data['password']) : '';
+        $remember = isset($data['remember']) ? $data['remember'] : false;
+
+        if (!$username) {
+            $errors[] = 'Username is required';
         }
 
-        if ($password === '') {
-            $errors[] = 'Please input password';
+        if (!$password) {
+            $errors[] = 'Password is required';
         }
 
-        if ($errors) {
-            foreach ($errors as $key => $value) {
-                echo $value . "<br/>";
+        if ($username && $password) {
+            $user = new User($username, $password);
+            $userExist = $user->exists();
+
+            if ($userExist) {
+                $isValid = $user->isValid($password);
+
+                if ($isValid) {
+                    $_SESSION['username'] = $username;
+                    $_SESSION['userId'] = $user->getUserId();
+
+                    if($remember) {
+                        $tokenHash = bin2hex(random_bytes(8));
+                        $expires = time() + 60 * 60 * 24 * 30;
+                        $token = new TokenUtility();
+                        $token->createToken($tokenHash, $user->getUserId(), $expires);
+
+                        setcookie('remember', $tokenHash, $expires, '/');
+                    }
+                } else {
+                    $errors[] = 'Password is invalid';
+                }
+            } else {
+                $errors[] = $userExist;
             }
-        } else {
-            header('Location: ../dashboard.html');
         }
     } else {
-        echo "Invalid request";
+        $errors[] = 'Invalid request!';
     }
 
-    function testInput($input) {
-        $input = trim($input);
-        $input = htmlspecialchars($input);
+    if ($errors) {
+        http_response_code(401);
 
-        return $input;
+        echo json_encode(['success' => false, 'message' => $errors]);
+    } else {
+        echo json_encode(['success' => true, 'message' => 'User logged in']);
     }
 ?>
