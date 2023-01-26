@@ -1,8 +1,12 @@
 <?php
+    require_once "db.php";
+    
     class Question {
-        public $question;
-        public $answers;
-        public $correctAnswerIndex;
+        private $question;
+        private $answers;
+        private $correctAnswerIndex;
+        private $category;
+        private $db;
 
         public function __construct($arr) {
             $this->question = $arr[0];
@@ -11,6 +15,8 @@
                 $this->answers[$i] = $arr[$i + 1]; 
               }
             $this->correctAnswerIndex = $arr[7];
+            $this->category = $arr[8];
+            $this->db = new Database();
         }
 
         public function getQuestion() {
@@ -27,6 +33,10 @@
 
         public function isCorrect($index){
             return $index == $this->correctAnswerIndex;
+        }
+
+        public function addQuestionToDatabase() {
+            $query = $this->db->insertQuestionQuery(['questiontext' => $this->question, 'answer1' => $this->answers[0],'answer2' => $this->answers[1],'answer3' => $this->answers[2],'answer4' => $this->answers[3],'answer5' => $this->answers[4],'answer6' => $this->answers[5],'correctAnswer' => $this->correctAnswerIndex,'category' => $this->category]);
         }
     }
 ?>

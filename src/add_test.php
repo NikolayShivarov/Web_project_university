@@ -5,6 +5,8 @@
 </head>
 <body>
 <?php
+  require_once "db.php";
+  require_once "question.php";
 
 echo $_FILES['filename']['name'];
 $file_extension = explode('.',$_FILES['filename']['name']);
@@ -13,6 +15,12 @@ $file_extension = end($file_extension);
 if((!empty($_FILES["filename"])) && ($_FILES['filename']['error'] == 0)) {
  if($file_extension == 'csv') { 
    $file = fopen($_FILES['filename']['tmp_name'], 'r');
+   $arr = fgetcsv($file);
+   while($arr = fgetcsv($file)){
+                $currenQuestion = new Question($arr);
+                $currenQuestion->addQuestionToDatabase();
+                }
+
   } else {
      echo "Error: Only csv files are accepted for upload";
   }

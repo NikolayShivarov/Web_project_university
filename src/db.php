@@ -11,6 +11,7 @@
         private $selectToken;
         private $selectUserById;
         private $insertUser;
+        private $insertQuestion;
         private $selectStudentsWithMarks;
 
         private $tableStudents;
@@ -71,7 +72,6 @@
             $this->tableTests = $this->connection->prepare($sql);
 
             $sql = "CREATE TABLE IF NOT EXISTS questions(
-                test_id int(11) NOT NULL,
                 questiontext varchar(100) NOT NULL,
                 answer1 varchar(50),
                 answer2 varchar(50),
@@ -80,7 +80,8 @@
                 answer5 varchar(50),
                 answer6 varchar(50),
                 correctAnswer int(11),
-                PRIMARY KEY (id)
+                category varchar(50),
+                PRIMARY KEY (questiontext)
                )";
             $this->tableQuestions = $this->connection->prepare($sql);
             
@@ -111,6 +112,9 @@
             $sql = "INSERT INTO users(username, email, pass) VALUES (:username, :email, :pass)";
             $this->insertUser = $this->connection->prepare($sql);
 
+            $sql = "INSERT INTO questions(questiontext, answer1, answer2, answer3, answer4, answer5, answer6, correctAnswer, category) VALUES (:questiontext, :answer1, :answer2, :answer3, :answer4, :answer5, :answer6, :correctAnswer, :category)";
+            $this->insertQuestion = $this->connection->prepare($sql);
+        
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
             // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
         }
@@ -268,6 +272,17 @@
         public function insertUserQuery($data) {
             try {
                 $this->insertUser->execute($data);
+
+                return ["success" => true];
+            } catch(PDOException $e) {
+                //$this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function insertQuestionQuery($data) {
+            try {
+                $this->insertQuestion->execute($data);
 
                 return ["success" => true];
             } catch(PDOException $e) {
