@@ -68,7 +68,7 @@
                 testname varchar(30),
                 PRIMARY KEY (id)
                )";
-            $this->tabeTests = $this->connection->prepare($sql);
+            $this->tableTests = $this->connection->prepare($sql);
 
             $sql = "CREATE TABLE IF NOT EXISTS questions(
                 test_id int(11) NOT NULL,
@@ -117,7 +117,7 @@
 
         public function createTableTests() {
             try {
-                $this->tabeTests->execute();
+                $this->tableTests->execute();
                 return ["success" => true];
             } catch(PDOException $e) {
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
