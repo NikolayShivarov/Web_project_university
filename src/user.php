@@ -25,6 +25,10 @@
             return $this->email;
         }
 
+        public function getPass() {
+            return $this->password;
+        }
+
         public function getUserId() {
             return $this->userId;
         }
@@ -56,8 +60,6 @@
                 $user = $query["data"]->fetch(PDO::FETCH_ASSOC);
                 
                 if ($user) {
-                    //$passwordHash = password_hash($password, PASSWORD_DEFAULT);
-                    //echo $password . " && " . $this->password . " TEST: " . $passwordHash . " another test " . $user['pass'];
                     return password_verify($password, $user['pass']);
                 } else {
                     return false;

@@ -25,6 +25,7 @@
         }
 
         if ($username && $password) {
+            
             $user = new User($username, $password);
             $userExist = $user->exists();
 
