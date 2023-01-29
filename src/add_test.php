@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Добавяне на тест</title>
-</head>
-<body>
 <?php
   require_once "db.php";
   require_once "question.php";
@@ -16,7 +10,12 @@ if((!empty($_FILES["filename"])) && ($_FILES['filename']['error'] == 0)) {
  if($file_extension == 'csv') { 
    $file = fopen($_FILES['filename']['tmp_name'], 'r');
    $arr = fgetcsv($file);
-   while($arr = fgetcsv($file)){
+  //  while(! feof($file)) {
+  //   $line = fgetcsv($file);
+  //   echo $line. "<br>";
+  //   }
+   while($arr = fgetcsv($file) && !empty($arr)){
+                print_r($arr);
                 $currenQuestion = new Question($arr);
                 $currenQuestion->addQuestionToDatabase();
                 }
@@ -30,11 +29,3 @@ if((!empty($_FILES["filename"])) && ($_FILES['filename']['error'] == 0)) {
 } 
 
 ?>
-<h1>Добавяне на тест</h1>
-    <form action="" method="POST" enctype="multipart/form-data">
-        <input type="file" name="filename"  />
-        <input type="submit" value="Upload" />
-      </form>
-
-</body>
-</html>
