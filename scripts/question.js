@@ -43,9 +43,9 @@ const question = new Question("koy e shefa na spidi", ["Gto", "tosho", "Ivan", "
             for(var a = 0; a < questions.length; a++) {
                 var question1 = questions[a].questiontext;
                 var answer1 = questions[a].answer1;
-                var answer2 = questions[a].answer1;
-                var answer3 = questions[a].answer1;
-                var answer4 = questions[a].answer1;
+                var answer2 = questions[a].answer2;
+                var answer3 = questions[a].answer3;
+                var answer4 = questions[a].answer4;
                 var category = questions[a].category;
 
                 html += "<tr>";
