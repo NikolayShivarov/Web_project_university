@@ -5,6 +5,7 @@ function sendRequest(url, options, successCallback, errorCallback) {
         var response = JSON.parse(request.responseText);
 
         if (request.status === 200) {
+            console.log(response);
             successCallback(response);
         } else {
             console.log('Not authorized')

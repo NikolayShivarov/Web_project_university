@@ -7,7 +7,7 @@
 
 
     if (isset($_COOKIE['remember'])) {
-        setcookie('remember', '', time() - 60 * 60, '/');
+        setcookie('remember', '', 0, '/');
     }
 
     echo json_encode(['success' => true]);
