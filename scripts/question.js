@@ -7,55 +7,48 @@ function Question(questionText, answers, correctIndex, category){
 
 }
 
-const question = new Question("koy e shefa na spidi", ["Gto", "tosho", "Ivan", "kudin", "krasi"], 2, "hrana");
+//const question = new Question("koy e shefa na spidi", ["Gto", "tosho", "Ivan", "kudin", "krasi"], 2, "hrana");
 
 
-// var questions = fetch("src/generate_test.php")
-//         .then((response) => {
-//             if(!response.ok){ // Before parsing (i.e. decoding) the JSON data,
-//                               // check for any errors.
-//                 // In case of an error, throw.
-//                 throw new Error("Something went wrong!");
-//             }
 
-//             return response.json(); // Parse the JSON data.
-//         }).then((data) => {
-//              // This is where you handle what to do with the response.
-//               // Will alert: 42
-              
-//               console.log(data);
-//         })
-//         .catch((error) => {
-//              // This is where you handle errors.
-//         });
-//         console.log(questions);
 
     var ajax = new XMLHttpRequest();
     ajax.open("GET", "src/generate_test.php", true);
     ajax.send();
+    let questions = [];
 
     ajax.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var questions = JSON.parse(this.responseText);
-            console.log(questions);
+            var data = JSON.parse(this.responseText);
+            console.log(data);
 
             var html = "";
-            for(var a = 0; a < questions.length; a++) {
-                var question1 = questions[a].questiontext;
-                var answer1 = questions[a].answer1;
-                var answer2 = questions[a].answer2;
-                var answer3 = questions[a].answer3;
-                var answer4 = questions[a].answer4;
-                var category = questions[a].category;
+            
+            for(var i = 0; i < data.length; i++) {
+                var question = data[i].questiontext;
+                let answers = [];
+                if(data[i].answer1.lenght > 0) answers[0] = data[i].answer1;
+                if(data[i].answer2.lenght > 0) answers[1] = data[i].answer2;
+                if(data[i].answer3.lenght > 0) answers[2] = data[i].answer3;
+                if(data[i].answer4.lenght > 0) answers[3] = data[i].answer4;
+                if(data[i].answer5.lenght > 0) answers[4] = data[i].answer5;
+                if(data[i].answer6.lenght > 0) answers[5] = data[i].answer6;
+                correctIndex = data[i].correctAnswer;
+                category = data[i].category;
+                questions[i] = new Question(question, answers, correctIndex ,category); 
+                // var answer2 = data[i].answer2;
+                // var answer3 =data[i].answer3;
+                // var answer4 = questions[i].answer4;
+                // var category = questions[i].category;
 
-                html += "<tr>";
-                    html += "<td>" + question1 + "</td>";
-                    html += "<td>" + answer1 + "</td>";
-                    html += "<td>" + answer2 + "</td>";
-                    html += "<td>" + answer3 + "</td>";
-                    html += "<td>" + answer4 + "</td>";
-                    html += "<td>" + category + "</td>";
-                html += "</tr>";
+                // html += "<tr>";
+                //     html += "<td>" + question1 + "</td>";
+                //     html += "<td>" + answer1 + "</td>";
+                //     html += "<td>" + answer2 + "</td>";
+                //     html += "<td>" + answer3 + "</td>";
+                //     html += "<td>" + answer4 + "</td>";
+                //     html += "<td>" + category + "</td>";
+                // html += "</tr>";
             }
             document.getElementById("data").innerHTML += html;
         }
