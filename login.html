@@ -8,35 +8,33 @@
 
         <script defer src="scripts/sendRequestUtility.js"></script>
         <script defer src="scripts/login.js"></script>
-        <link rel="stylesheet" href="styles/style.css"/>
+        <link rel="stylesheet" href="styles/styleLoginRegister.css"/> 
     </head>
 
     <body>
-        <!-- This is our login page -->
-        <header>
-            <nav>
-                <!-- TODO: Implement registration login -->
-                <a href="register.html">Registration</a>
-            </nav>
-        </header>
 
         <main>
             <section>
-                <header id="main-header">Login</header>
-
-                <fieldset>
-                    <form id="login-form">
-                        <!-- Here we will add the validation errors that we found -->
+                <!-- <header id="main-header">Login</header>         -->
+                    <div class="form">
                         <label id="errors"></label>
-                        <label for="user-name">User Name</label>
-                        <input type="text" id="user-name" name="userName"/>
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password"/>
+                        <div class="title">Welcome</div>
+                        <div class="subtitle">Let's create your account!</div>
+                        <div class="input-container ic1">
+                          <input id="user-name" class="input" type="text" placeholder=" " />
+                          <div class="cut"></div>
+                          <label for="user-name" class="placeholder">Username</label>
+                        </div>
+                        <div class="input-container ic2">
+                          <input id="password" class="input" type="password" placeholder=" " />
+                          <div class="cut"></div>
+                          <label for="password" class="placeholder">Password</label>
+                        </div>
                         <input type="checkbox" id="remember-me"/>
                         <label for="remember-me">Remember me</label>
-                        <input type="submit" id="login" value="Login"/>
-                    </form>
-                </fieldset>
+                        <button type="text" class="submit" id="login">submit</button>
+                        <div class="subtitle">Don't have an account? <a href="register.html">Registration</a></div>
+                    </div>
             </section>
         </main>
     </body>

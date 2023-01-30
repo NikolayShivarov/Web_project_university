@@ -2,11 +2,22 @@
 <html>
 <head>
     <meta chareset="utf-8"/>
-<title>Добавяне на тест</title>
+    <title>Добавяне на тест</title>
+    <link rel="stylesheet" href="styles/index.css"/>
 </head>
 <body>
+    <header>
+        <ul>
+          <li><button id="logout">Logout</button></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a class="active" href="addtest.html">Import Questions</a></li>
+          <li><a href="#contact">Export Questions</a></li>
+          <li><a href="test.html">Generate Test</a></li>
+        </ul> 
+        <h1>WWW Tech Labs</h1>
+    </header>
 
-<h1>Добавяне на тест</h1>
+<h1>Adding a Test:</h1>
     <form action="src/add_test.php" method="POST" enctype="multipart/form-data">
         <input type="file" name="filename"  />
         <input type="submit" value="Upload" />
