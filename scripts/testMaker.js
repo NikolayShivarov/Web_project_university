@@ -59,9 +59,9 @@ function Question(questionText, answers, correctIndex, category){
     console.log(questions[1]);
     console.log(questions);
     //console.log(questions[1].questionText);
-    questions[0] = new Question("koy e shefa na spidi", ["Gto", "tosho", "Ivan", "kudin", "krasi"], 2, "hrana");
+    //questions[0] = new Question("koy e shefa na spidi", ["Gto", "tosho", "Ivan", "kudin", "krasi"], 2, "hrana");
     
-window.onload = function () {
+   function startQuiz() {
   
     var questionArea = document.getElementsByClassName('questions')[0],
         answerArea   = document.getElementsByClassName('answers')[0],
@@ -164,3 +164,5 @@ window.onload = function () {
     loadAnswers(current);
     
   };
+
+  window.setTimeout(startQuiz,500);
