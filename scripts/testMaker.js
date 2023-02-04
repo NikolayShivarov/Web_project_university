@@ -98,7 +98,7 @@ function Question(questionText, answers, correctIndex, category){
       
       answerArea.innerHTML = '';
       
-      for (var i = 0; i < answers.length -1; i += 1) {
+      for (var i = 0; i < answers.length; i += 1) {
         var createDiv = document.createElement('div'),
             text = document.createTextNode(answers[i]);
         
