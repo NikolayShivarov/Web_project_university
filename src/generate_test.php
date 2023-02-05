@@ -1,5 +1,5 @@
 <?php
-// require_once 'question.php';
+require_once 'db.php';
 
 // header('Content-type: application/json');
 
@@ -9,6 +9,16 @@
 // $arr2 = array('koy e shefa na uncle', 'ivan', 'gto', 'gosho', 'tosho', '' , '' , 1 , 'hrana');
 // $questions[1] = new Question($arr2);
 // echo json_encode($questions);
+public function selectByCategory($category) {
+    $query = $this->db->selectQuestionsByCategoryQuery(["category" => $category]);
+    
+    if ($query["success"]) {
+        $data = $query["data"]->fetch(PDO::FETCH_ASSOC);
+        return $data;            
+    } else {
+        return false;
+    }
+}
 
 $conn = mysqli_connect("localhost", "root", "", "webproject");
 $result = mysqli_query($conn, "SELECT * FROM questions");

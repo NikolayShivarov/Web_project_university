@@ -13,6 +13,7 @@
         private $insertUser;
         private $insertQuestion;
         private $selectStudentsWithMarks;
+        private $selectQuestionsByCategory;
 
         private $tableStudents;
         private $tableTokens;
@@ -114,6 +115,9 @@
 
             $sql = "INSERT INTO questions(questiontext, answer1, answer2, answer3, answer4, answer5, answer6, correctAnswer, category) VALUES (:questiontext, :answer1, :answer2, :answer3, :answer4, :answer5, :answer6, :correctAnswer, :category)";
             $this->insertQuestion = $this->connection->prepare($sql);
+
+            $sql = "SELECT * FROM questions WHERE category = :category";
+            $this->selectQuestionsByCategory = $this->connection->prepare($sql);
         
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
             // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
@@ -202,6 +206,17 @@
                 $this->selectStudent->execute($data);
 
                 return ["success" => true, "data" => $this->selectStudent];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectQuestionsByCategoryQuery($data) {
+            try {
+                $this->selectQuestionsByCategory->execute($data);
+
+                return ["success" => true, "data" => $this->selectQuestionsByCategory];
             } catch(PDOException $e) {
                 $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
