@@ -1,6 +1,5 @@
 <?php
 
-
 $conn = mysqli_connect("localhost", "root", "", "webproject");
 $result = mysqli_query($conn, "SELECT * FROM questions");
 
@@ -12,3 +11,5 @@ while ($row = mysqli_fetch_object($result))
 
 echo json_encode($data);
 exit();
+
+?>
