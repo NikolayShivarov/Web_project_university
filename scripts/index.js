@@ -13,7 +13,7 @@
   
     // TODO: Send request for getting all students' marks
 
-    sendRequest('src/index.php', { method: 'GET' }, loadStudents, handleError);
+    sendRequest('src/auth_session.php', { method: 'GET' }, loadStudents, handleError);
   })();
   
   function sendForm(event) {

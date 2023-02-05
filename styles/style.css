@@ -1,6 +1,4 @@
 body, html {
-    width: 100%;
-    height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
@@ -83,3 +81,17 @@ body, html {
   .false {
     background-color: #DC4437;
   }
+
+  .arrow {
+    width: 15%;
+    height: 15%;
+  }
+
+  #left_a{
+    float: left;
+  }
+
+  #right_a{
+    float: right;
+  }
+  
