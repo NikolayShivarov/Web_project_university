@@ -34,9 +34,9 @@ $stmt->execute();
           <li><a href="../test.html">Generate Test</a></li>
           <li><a class="active" href="show_questions.php">Manage questions</a></li>
         </ul> 
-        <h1>WWW Tech Labs</h1>
 </header>   
 <div>
+    <h1>Manage Questions</h1>
     <table cellspacing="2" cellpadding="2" borders="1">
         <tr>
             <th>Question Text</th>

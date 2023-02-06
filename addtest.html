@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta chareset="utf-8"/>
-    <title>Добавяне на тест</title>
+    <title>AddTest</title>
     <script defer src="scripts/sendRequestUtility.js"></script>
     <script defer src="scripts/addtest.js"></script>
     <link rel="stylesheet" href="styles/index.css"/>
@@ -17,14 +17,16 @@
           <li><a href="test.html">Generate Test</a></li>
           <li><a href="src/show_questions.php">Manage questions</a></li>
         </ul> 
-        <h1>WWW Tech Labs</h1>
     </header>
 
-<h1>Adding a Test:</h1>
+<h1>Adding a CSV Test:</h1>
     <form action="src/add_test.php" method="POST" enctype="multipart/form-data">
-        <input type="file" name="filename"  />
-        <input type="submit" value="Upload" />
-      </form>
+        <!--our custom file upload button-->   
+        <input id="actual-btn" type="file" name="filename"  hidden/>
+        <label for="actual-btn" class="specialbutton" >Choose File</label>
+        <!-- <input id="actual-btn" type="file" name="filename"  /> -->
+        <input class="specialbutton" type="submit" value="Upload" />
+    </form>
 
 </body>
 </html>

@@ -87,11 +87,11 @@ body, html {
     height: 15%;
   }
 
-  #left_a{
+  .left_a{
     float: left;
   }
 
-  #right_a{
+  .right_a{
     float: right;
   }
   
