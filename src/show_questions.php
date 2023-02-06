@@ -2,11 +2,13 @@
 $conn = mysqli_connect("localhost", "root", "", "webproject") ;
 $result = mysqli_query($conn, "SELECT * FROM questions");
 $connect = new PDO('mysql:host=localhost;dbname=webproject','root','');
-if(isset($_GET['action']) && $_GET['action'] == 'delete'){
-echo $_GET['questiontext'];    
+if(isset($_GET['action']) && $_GET['action'] == 'delete'){   
 $stmt = $connect->prepare('delete from questions where questiontext = :questiontext');
 $stmt->bindValue('questiontext',$_GET['questiontext']);
 $stmt->execute();
+
+
+
 }
 ?>
 
@@ -17,12 +19,23 @@ $stmt->execute();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta chareset="utf-8"/>
+    <script defer src="../scripts/sendRequestUtility.js"></script>
+    <link rel="stylesheet" href="../styles/index.css"/>
+    <title>Managing questions</title>
 </head>
 <body>
+<header>
+        <ul>
+          <li><button id="../logout">Logout</button></li>
+          <li><a href="../index.html">Home</a></li>
+          <li><a  href="../addtest.html">Import Questions</a></li>
+          <li><a href="#contact">Export Questions</a></li>
+          <li><a href="../test.html">Generate Test</a></li>
+          <li><a class="active" href="show_questions.php">Manage questions</a></li>
+        </ul> 
+        <h1>WWW Tech Labs</h1>
+</header>   
 <div>
     <table cellspacing="2" cellpadding="2" borders="1">
         <tr>
@@ -48,8 +61,8 @@ $stmt->execute();
             <td><?php echo $question['correctAnswer'] ?></td>
             <td><?php echo $question['category'] ?></td>
             <td>
-                <a onclick="" class="delete-button" href="show_questions.php?questiontext=<?php
-                 echo $question['questiontext'] ?>&action=delete">DELETE</a>
+                <a onclick="return confirm('Do you want to delete this question?');" class="delete-button" href="show_questions.php?questiontext=<?php
+                 echo $question['questiontext'] ?>&action=delete"><button class="delete-btn">DELETE</button></a>
             </td>    
             
        </tr>
