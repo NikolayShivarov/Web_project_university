@@ -1,5 +1,7 @@
+
 <?php
 require_once 'db.php';
+
 
 function selectByCategory($category) {
     $db= new Database();
@@ -14,9 +16,29 @@ function selectByCategory($category) {
     }
 }
 $category = "крипто";
+// $category = '<script>
+//      var a =  localStorage.getItem("textvalue");
+//      document.write(a);
+//  </script>';
+$connect = new PDO('mysql:host=localhost;dbname=webproject','root','');
+$stmt = $connect->prepare('select * from questions where category = :category');
+$stmt->bindValue('category',$category);
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+print_r($category);
 
-$conn = mysqli_connect("localhost", "root", "", "webproject");
 
-$data =  selectByCategory($category);
-echo json_encode($data);
-exit();
+// $conn = mysqli_connect("localhost", "root", "", "webproject");
+// $data = array();
+// $result =  selectByCategory($category);
+// print_r($result);
+// while ($row = mysqli_fetch_object($result))
+// {
+//     array_push($data, $row);
+// }
+
+//print_r($data);
+print_r($result);
+echo json_encode($result);
+exit(); ?>
+

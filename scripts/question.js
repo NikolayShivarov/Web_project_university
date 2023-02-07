@@ -6,16 +6,23 @@ function Question(questionText, answers, correctIndex, category){
   
   
   }
-  
+
+  var category = localStorage.getItem("textvalue");
+
+  console.log(category);
   var ajax = new XMLHttpRequest();
-  ajax.open("GET", "src/generate_test.php", true);
+  if(category == "All") { 
+    ajax.open("GET", "src/generate_test.php", true);
+}else{
+     ajax.open("GET", "src/generate_category_test.php", true);
+  }
   ajax.send();
   var questions = [];
   
   ajax.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-          var data = JSON.parse(this.responseText);
-  
+      if (this.readyState == 4 && this.status == 200) {  
+        var data = JSON.parse(this.responseText);
+          console.log(data);   
           for(var i = 0; i < data.length; i++) {
               var question = data[i].questiontext;
               const answers = [];

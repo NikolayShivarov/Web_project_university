@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta chareset="utf-8"/>
+    <script defer src="scripts/sendRequestUtility.js"></script>
+    <link rel="stylesheet" href="styles/index.css"/>
+    <title>Test menu</title>
+</head>
+<body>
+<header>
+        <ul>
+          <li><button id="logout">Logout</button></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a  href="addtest.html">Import Questions</a></li>
+          <li><a href="#contact">Export Questions</a></li>
+          <li><a href="test.html">Generate Test</a></li>
+          <li><a href="src/show_questions.php">Manage questions</a></li>
+          <li><a class="active" href="test_menu.html">Test menu</a></li>
+        </ul> 
+        <h1>Choose test</h1>
+</header>
+<body>   
+<div>
+    
+<form action = "test.html">
+<select id="test_selection" onchange="getSelectedCategory();">
+    <option value="All" selected>All</option>
+</select>
+<button id="start_test_button" type ="submit" value = "Click" onclick ="passValue()" >Start Test</button>
+</form> 
+
+
+<script src="scripts/selectTest.js"></script>  
+</div>
+</body>
+</html>
