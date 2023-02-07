@@ -31,8 +31,15 @@ var ajax = new XMLHttpRequest();
              selectedCategory = selectTest.value;
              
         }
+ function load(data){
+    console.log(data);
+ }
+ function handleError(data){
+    console.log(data);
+}
  function passValue(){
     localStorage.setItem("textvalue",selectedCategory);
+    sendRequest('./src/generate_category_test.php', { method: 'POST', data: `category=${selectedCategory}` }, load, handleError);
  }        
 
 

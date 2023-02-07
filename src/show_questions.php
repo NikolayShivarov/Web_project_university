@@ -33,6 +33,7 @@ $stmt->execute();
           <li><a href="#contact">Export Questions</a></li>
           <li><a href="../test.html">Generate Test</a></li>
           <li><a class="active" href="show_questions.php">Manage questions</a></li>
+          <li><a href="../test_menu.html">Test menu</a></li>
         </ul> 
 </header>   
 <div>

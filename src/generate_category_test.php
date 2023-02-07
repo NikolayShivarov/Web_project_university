@@ -1,7 +1,7 @@
 
 <?php
 require_once 'db.php';
-
+$category;
 
 function selectByCategory($category) {
     $db= new Database();
@@ -15,7 +15,11 @@ function selectByCategory($category) {
         return false;
     }
 }
-$category = "крипто";
+if ($_POST) {
+    $category = $_POST['category'];
+}
+//print_r($data);
+// $category = "крипто";
 // $category = '<script>
 //      var a =  localStorage.getItem("textvalue");
 //      document.write(a);
@@ -25,7 +29,7 @@ $stmt = $connect->prepare('select * from questions where category = :category');
 $stmt->bindValue('category',$category);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-print_r($category);
+// print_r($category);
 
 
 // $conn = mysqli_connect("localhost", "root", "", "webproject");
@@ -38,7 +42,7 @@ print_r($category);
 // }
 
 //print_r($data);
-print_r($result);
+// print_r($result);
 echo json_encode($result);
 exit(); ?>
 
