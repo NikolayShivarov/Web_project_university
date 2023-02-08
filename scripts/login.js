@@ -46,7 +46,7 @@ function sendForm(event) {
 
 /**
  * Handle the received response from the server
- * If there were no errors found on validation, the index.html is loaded.
+ * If there were no errors found on validation, the index.php is loaded.
  * Else the errors are displayed to the user.
  * @param {*} response
  */
@@ -55,7 +55,7 @@ function load(response) {
     errors.innerHTML = '';
     errors.style.display = 'none';
 
-    window.location = './index.html';
+    window.location = './index.php';
 }
 
 function handleError(error) {

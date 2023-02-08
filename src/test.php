@@ -26,14 +26,4 @@
         }
 
     }
-
-   /* $test = new Test("ugabuga");
-    echo $test->name;
-    echo $test->questions[0]->question;
-    echo $test->questions[0]->answers[0];
-    print_r($test);
-    
-    
-
-    fclose($file); */
 ?>

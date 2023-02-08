@@ -39,7 +39,7 @@ var ajax = new XMLHttpRequest();
 }
  function passValue(){
     localStorage.setItem("textvalue",selectedCategory);
-    sendRequest('./src/generate_category_test.php', { method: 'POST', data: `category=${selectedCategory}` }, load, handleError);
+    window.location = './test.php';
  }        
 
 

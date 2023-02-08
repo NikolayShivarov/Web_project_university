@@ -3,12 +3,9 @@ $conn = mysqli_connect("localhost", "root", "", "webproject") ;
 $result = mysqli_query($conn, "SELECT * FROM questions");
 $connect = new PDO('mysql:host=localhost;dbname=webproject','root','');
 if(isset($_GET['action']) && $_GET['action'] == 'delete'){   
-$stmt = $connect->prepare('delete from questions where questiontext = :questiontext');
-$stmt->bindValue('questiontext',$_GET['questiontext']);
-$stmt->execute();
-
-
-
+    $stmt = $connect->prepare('delete from questions where questiontext = :questiontext');
+    $stmt->bindValue('questiontext',$_GET['questiontext']);
+    $stmt->execute();
 }
 ?>
 
@@ -28,12 +25,11 @@ $stmt->execute();
 <header>
         <ul>
           <li><button id="../logout">Logout</button></li>
-          <li><a href="../index.html">Home</a></li>
-          <li><a  href="../addtest.html">Import Questions</a></li>
+          <li><a href="../index.php">Home</a></li>
+          <li><a  href="../addtest.php">Import Questions</a></li>
           <li><a href="#contact">Export Questions</a></li>
-          <li><a href="../test.html">Generate Test</a></li>
           <li><a class="active" href="show_questions.php">Manage questions</a></li>
-          <li><a href="../test_menu.html">Test menu</a></li>
+          <li><a href="../test_menu.php">Test menu</a></li>
         </ul> 
 </header>   
 <div>
