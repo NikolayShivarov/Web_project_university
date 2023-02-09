@@ -1,12 +1,23 @@
 <?php
 require_once "db.php";
 $db = new Database();
-$query = $db->selectAllQuestionsQuery();
-$result = $query['data']->fetchAll(PDO::FETCH_ASSOC);
-$connect = new PDO('mysql:host=localhost;dbname=webproject','root','');
+$result = array();
 if(isset($_GET['action']) && $_GET['action'] == 'delete'){   
     $query2 = $db->deleteQuestionByNameQuery(['questiontext' => $_GET['questiontext'] ]);
 }
+
+if(isset($_POST['select_category'])) {
+    if($_POST['select_category'] != "All"){
+    $query = $db->selectQuestionsByCategoryQuery(["category" => $_POST['select_category']]);
+    $result = $query["data"]->fetchAll(PDO::FETCH_ASSOC);
+}else{
+    $query = $db->selectAllQuestionsQuery();
+    $result = $query['data']->fetchAll(PDO::FETCH_ASSOC);
+}
+
+}
+     
+
 ?>
 
 
@@ -18,6 +29,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete'){
 <head>
     <meta chareset="utf-8"/>
     <script defer src="../scripts/sendRequestUtility.js"></script>
+    <script defer src="../scripts/manageQuestions.js"></script>
     <link rel="stylesheet" href="../styles/index.css"/>
     <title>Managing questions</title>
 </head>
@@ -33,6 +45,12 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete'){
         </ul> 
 </header>   
 <div>
+    <form action = "<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" >
+    <select name =  "select_category" id="test_selection" onchange="this.form.submit();">
+        <option value="1" selected>Select category</option>
+        <option value="All">All</option>
+    </select>
+    </form>
     <h1>Manage Questions</h1>
     <table cellspacing="2" cellpadding="2" borders="1">
         <tr>
