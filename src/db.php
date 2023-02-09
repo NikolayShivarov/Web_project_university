@@ -13,7 +13,10 @@
         private $insertUser;
         private $insertQuestion;
         private $selectStudentsWithMarks;
+        private $selectAllQuestions;
         private $selectQuestionsByCategory;
+        private $deleteQuestionByName;
+        private $selectCategories;
 
         private $tableStudents;
         private $tableTokens;
@@ -115,9 +118,18 @@
 
             $sql = "INSERT INTO questions(questiontext, answer1, answer2, answer3, answer4, answer5, answer6, correctAnswer, category) VALUES (:questiontext, :answer1, :answer2, :answer3, :answer4, :answer5, :answer6, :correctAnswer, :category)";
             $this->insertQuestion = $this->connection->prepare($sql);
+            
+            $sql = "SELECT * FROM questions";
+            $this->selectAllQuestions = $this->connection->prepare($sql);
 
             $sql = "SELECT * FROM questions WHERE category = :category";
             $this->selectQuestionsByCategory = $this->connection->prepare($sql);
+            
+            $sql = "DELETE from questions where questiontext = :questiontext";
+            $this->deleteQuestionByName = $this->connection->prepare($sql);
+
+            $sql = "SELECT distinct category FROM questions";
+            $this->selectCategories = $this->connection->prepare($sql);
         
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
             // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
@@ -211,12 +223,44 @@
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
+        public function selectAllQuestionsQuery() {
+            try {
+                $this->selectAllQuestions->execute();
 
+                return ["success" => true, "data" => $this->selectAllQuestions];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+        
+        
         public function selectQuestionsByCategoryQuery($data) {
             try {
                 $this->selectQuestionsByCategory->execute($data);
 
                 return ["success" => true, "data" => $this->selectQuestionsByCategory];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function deleteQuestionByNameQuery($data) {
+            try {
+                $this->deleteQuestionByName->execute($data);
+                return array("success" => true);
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectCategoriesQuery() {
+            try {
+                $this->selectCategories->execute();
+
+                return ["success" => true, "data" => $this->selectCategories];
             } catch(PDOException $e) {
                 $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];

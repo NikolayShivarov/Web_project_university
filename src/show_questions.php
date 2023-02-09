@@ -1,11 +1,11 @@
-<?php 
-$conn = mysqli_connect("localhost", "root", "", "webproject") ;
-$result = mysqli_query($conn, "SELECT * FROM questions");
+<?php
+require_once "db.php";
+$db = new Database();
+$query = $db->selectAllQuestionsQuery();
+$result = $query['data']->fetchAll(PDO::FETCH_ASSOC);
 $connect = new PDO('mysql:host=localhost;dbname=webproject','root','');
 if(isset($_GET['action']) && $_GET['action'] == 'delete'){   
-    $stmt = $connect->prepare('delete from questions where questiontext = :questiontext');
-    $stmt->bindValue('questiontext',$_GET['questiontext']);
-    $stmt->execute();
+    $query2 = $db->deleteQuestionByNameQuery(['questiontext' => $_GET['questiontext'] ]);
 }
 ?>
 

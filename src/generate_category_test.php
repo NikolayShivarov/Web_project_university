@@ -1,7 +1,7 @@
 
 <?php
 require_once 'db.php';
-$category;
+
 
 function selectByCategory($category) {
     $db= new Database();
@@ -15,6 +15,7 @@ function selectByCategory($category) {
         return false;
     }
 }
+$category;
 if ($_POST) {
     $category = $_POST['category'];
 }
@@ -24,11 +25,13 @@ if ($_POST) {
 //      var a =  localStorage.getItem("textvalue");
 //      document.write(a);
 //  </script>';
-$connect = new PDO('mysql:host=localhost;dbname=webproject','root','');
-$stmt = $connect->prepare('select * from questions where category = :category');
-$stmt->bindValue('category',$category);
-$stmt->execute();
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $connect = new PDO('mysql:host=localhost;dbname=webproject','root','');
+// $stmt = $connect->prepare('select * from questions where category = :category');
+// $stmt->bindValue('category',$category);
+// $stmt->execute();
+// $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$result = selectByCategory($category);
+
 // print_r($category);
 
 

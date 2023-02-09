@@ -15,7 +15,7 @@ if((!empty($_FILES["filename"])) && ($_FILES['filename']['error'] == 0)) {
   //   echo $line. "<br>";
   //   }
    while($arr = fgetcsv($file) ){
-       if(sizeof($arr) != 1){
+       if(sizeof($arr) > 1){
                 print_r($arr);
                 echo count($arr);
                 $currenQuestion = new Question($arr);
