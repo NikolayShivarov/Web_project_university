@@ -17,6 +17,7 @@
         private $selectQuestionsByCategory;
         private $deleteQuestionByName;
         private $selectCategories;
+        private $deleteQuestionById;
 
         private $tableStudents;
         private $tableTokens;
@@ -76,16 +77,19 @@
             // $this->tableTests = $this->connection->prepare($sql);
 
             $sql = "CREATE TABLE IF NOT EXISTS questions(
+                id int(11) NOT NULL AUTO_INCREMENT,
                 questiontext varchar(100) NOT NULL,
                 answer1 varchar(50),
                 answer2 varchar(50),
                 answer3 varchar(50),
                 answer4 varchar(50),
-                answer5 varchar(50),
-                answer6 varchar(50),
                 correctAnswer int(11),
-                category varchar(50),
-                PRIMARY KEY (questiontext)
+                fn int(11),
+                correctfeedback varchar(100),
+                wrongfeedback varchar(100),
+                category TINYINT,
+                difficulty TINYINT,
+                PRIMARY KEY (id)
                )";
             $this->tableQuestions = $this->connection->prepare($sql);
             
@@ -116,7 +120,7 @@
             $sql = "INSERT INTO users(username, email, pass) VALUES (:username, :email, :pass)";
             $this->insertUser = $this->connection->prepare($sql);
 
-            $sql = "INSERT INTO questions(questiontext, answer1, answer2, answer3, answer4, answer5, answer6, correctAnswer, category) VALUES (:questiontext, :answer1, :answer2, :answer3, :answer4, :answer5, :answer6, :correctAnswer, :category)";
+            $sql = "INSERT INTO questions(questiontext, answer1, answer2, answer3, answer4, correctAnswer, fn, correctfeedback, wrongfeedback, category, difficulty) VALUES (:questiontext, :answer1, :answer2, :answer3, :answer4, :correctAnswer, :fn, :correctfeedback, :wrongfeedback, :category, :difficulty)";
             $this->insertQuestion = $this->connection->prepare($sql);
             
             $sql = "SELECT * FROM questions";
@@ -130,6 +134,9 @@
 
             $sql = "SELECT distinct category FROM questions";
             $this->selectCategories = $this->connection->prepare($sql);
+
+            $sql = "DELETE from questions where id = :id";
+            $this->deleteQuestionById = $this->connection->prepare($sql);
         
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
             // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
@@ -249,6 +256,16 @@
         public function deleteQuestionByNameQuery($data) {
             try {
                 $this->deleteQuestionByName->execute($data);
+                return array("success" => true);
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function deleteQuestionByIdQuery($data) {
+            try {
+                $this->deleteQuestionById->execute($data);
                 return array("success" => true);
             } catch(PDOException $e) {
                 $this->connection->rollBack();

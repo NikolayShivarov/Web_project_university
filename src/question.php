@@ -6,16 +6,24 @@
         private $answers;
         private $correctAnswerIndex;
         private $category;
+        private $difficulty;
+        private $fn;
+        private $correctfeedback;
+        private $wrongfeedback;
         private $db;
 
         public function __construct($arr) {
-            $this->question = $arr[0];
+            $this->fn = $arr[1];
+            $this->question = $arr[4];
             $this->answers = array();
-            for ($i = 0; $i <= 5; $i++) {
-                $this->answers[$i] = $arr[$i + 1]; 
+            for ($i = 0; $i <= 3; $i++) {
+                $this->answers[$i] = $arr[$i + 5]; 
               }
-            $this->correctAnswerIndex = $arr[7];
-            $this->category = $arr[8];
+            $this->correctAnswerIndex = $arr[9] - 1;
+            $this->category = $arr[14];
+            $this->difficulty = $arr[10];
+            $this->correctfeedback = $arr[11];
+            $this->correctfeedback = $arr[12];
             $this->db = new Database();
         }
 
@@ -36,7 +44,7 @@
         }
 
         public function addQuestionToDatabase() {
-            $query = $this->db->insertQuestionQuery(['questiontext' => $this->question, 'answer1' => $this->answers[0],'answer2' => $this->answers[1],'answer3' => $this->answers[2],'answer4' => $this->answers[3],'answer5' => $this->answers[4],'answer6' => $this->answers[5],'correctAnswer' => $this->correctAnswerIndex,'category' => $this->category]);
+            $query = $this->db->insertQuestionQuery(['questiontext' => $this->question, 'answer1' => $this->answers[0],'answer2' => $this->answers[1],'answer3' => $this->answers[2],'answer4' => $this->answers[3],'correctAnswer' => $this->correctAnswerIndex,'fn' => $this->fn,'correctfeedback' => $this->correctfeedback,'wrongfeedback' => $this->wrongfeedback  ,'category' => $this->category, 'difficulty' => $this->difficulty ]);
         }
     }
 ?>
