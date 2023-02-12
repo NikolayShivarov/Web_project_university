@@ -1,11 +1,11 @@
-function Question(questionText, answers, correctIndex, category,correctFeedback,wrongFeedback){
+function Question(questionText, answers, correctIndex, category, correctFeedback, wrongFeedback, questionId){
     this.questionText = questionText;
     this.answers = answers;
     this.correctIndex = correctIndex;
     this.category = category;
     this.correctFeedback = correctFeedback;
     this.wrongFeedback = wrongFeedback;
-  
+    this.questionId = questionId;
   
   }
 
@@ -23,7 +23,8 @@ function load(data){
     var category = data[i].category;
     var correctFeedback = data[i].correctfeedback;
     var wrongFeedback = data[i].wrongfeedback;
-    q = new Question(question, answers, correctIndex ,category, correctFeedback, wrongFeedback);
+    var questionId = data[i].questionId;
+    q = new Question(question, answers, correctIndex ,category, correctFeedback, wrongFeedback, questionId);
     questions[i]=q; 
     console.log(questions[i]);
   }

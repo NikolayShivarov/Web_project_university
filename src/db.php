@@ -12,12 +12,16 @@
         private $selectUserById;
         private $insertUser;
         private $insertQuestion;
+        private $insertReview;
         private $selectStudentsWithMarks;
         private $selectAllQuestions;
         private $selectQuestionsByCategory;
         private $deleteQuestionByName;
         private $selectCategories;
         private $deleteQuestionById;
+        private $deleteReviewByQuestionId;
+        private $deleteReviewByUserId;
+        private $deleteSpecificReview;
         private $selectReviewsByQuestionId;
         private $selectReviewsByUserId;
 
@@ -136,6 +140,9 @@
 
             $sql = "INSERT INTO questions(questiontext, answer1, answer2, answer3, answer4, correctAnswer, fn, correctfeedback, wrongfeedback, category, difficulty) VALUES (:questiontext, :answer1, :answer2, :answer3, :answer4, :correctAnswer, :fn, :correctfeedback, :wrongfeedback, :category, :difficulty)";
             $this->insertQuestion = $this->connection->prepare($sql);
+
+            $sql = "INSERT INTO reviews(questionId, userId, reviewText) VALUES (:questionId, :userId, :reviewText)";
+            $this->insertReview = $this->connection->prepare($sql);
             
             $sql = "SELECT * FROM questions";
             $this->selectAllQuestions = $this->connection->prepare($sql);
@@ -151,6 +158,16 @@
 
             $sql = "DELETE from questions where id = :id";
             $this->deleteQuestionById = $this->connection->prepare($sql);
+            
+            $sql = "DELETE from reviews where questionId = :questionId";
+            $this->deleteReviewByQuestionId = $this->connection->prepare($sql);
+
+            $sql = "DELETE from reviews where userId = :userId";
+            $this->deleteReviewByUserId = $this->connection->prepare($sql);
+
+            $sql = "DELETE from reviews where userId = :userId AND questionId = :questionId";
+            $this->deleteSpecificReview = $this->connection->prepare($sql);
+
 
             $sql = "SELECT * FROM reviews WHERE questionId = :questionId";
             $this->selectReviewsByQuestionId = $this->connection->prepare($sql);
@@ -324,6 +341,39 @@
             }
         }
 
+
+        public function deleteReviewByQuestionIdQuery($data) {
+            try {
+                $this->deleteReviewByQuestionId->execute($data);
+                return array("success" => true);
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function deleteReviewByUserIdQuery($data) {
+            try {
+                $this->deleteReviewByUserId->execute($data);
+                return array("success" => true);
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function deleteSpecificReviewQuery($data) {
+            try {
+                $this->deleteSpecificReview->execute($data);
+                return array("success" => true);
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+
+
         public function selectCategoriesQuery() {
             try {
                 $this->selectCategories->execute();
@@ -399,6 +449,17 @@
         public function insertUserQuery($data) {
             try {
                 $this->insertUser->execute($data);
+
+                return ["success" => true];
+            } catch(PDOException $e) {
+                //$this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function insertReviewQuery($data) {
+            try {
+                $this->insertReview->execute($data);
 
                 return ["success" => true];
             } catch(PDOException $e) {
