@@ -1,8 +1,10 @@
-function Question(questionText, answers, correctIndex, category){
+function Question(questionText, answers, correctIndex, category,correctFeedback,wrongFeedback){
     this.questionText = questionText;
     this.answers = answers;
     this.correctIndex = correctIndex;
     this.category = category;
+    this.correctFeedback = correctFeedback;
+    this.wrongFeedback = wrongFeedback;
   
   
   }
@@ -17,11 +19,11 @@ function load(data){
     if(data[i].answer2.length > 0) answers[1] = data[i].answer2;
     if(data[i].answer3.length > 0) answers[2] = data[i].answer3;
     if(data[i].answer4.length > 0) answers[3] = data[i].answer4;
-    if(data[i].answer5.length > 0) answers[4] = data[i].answer5;
-    if(data[i].answer6.length > 0) answers[5] = data[i].answer6;
     var correctIndex = parseInt(data[i].correctAnswer);
     var category = data[i].category;
-    q = new Question(question, answers, correctIndex ,category);
+    var correctFeedback = data[i].correctfeedback;
+    var wrongFeedback = data[i].wrongfeedback;
+    q = new Question(question, answers, correctIndex ,category, correctFeedback, wrongFeedback);
     questions[i]=q; 
     console.log(questions[i]);
   }

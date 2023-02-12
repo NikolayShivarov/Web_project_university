@@ -19,7 +19,7 @@
             for ($i = 0; $i <= 3; $i++) {
                 $this->answers[$i] = $arr[$i + 5]; 
               }
-            $this->correctAnswerIndex = $arr[9] - 1;
+            $this->correctAnswerIndex = intval($arr[9]) - 1;
             $this->category = $arr[14];
             $this->difficulty = $arr[10];
             $this->correctfeedback = $arr[11];

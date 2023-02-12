@@ -18,11 +18,14 @@
         private $deleteQuestionByName;
         private $selectCategories;
         private $deleteQuestionById;
+        private $selectReviewsByQuestionId;
+        private $selectReviewsByUserId;
 
         private $tableStudents;
         private $tableTokens;
         private $tableQuestions;
         private $tableTests;
+        private $tableReviews;
 
         public function __construct() {
             $config = parse_ini_file('../config/config.ini', true);
@@ -44,7 +47,7 @@
                 $this->prepareStatements();
                 $this->createTableStudents();
                 $this->createTableTokens();
-                //$this->createTableTests();
+                $this->createTableReviews();
                 $this->createTableQuestions();
             } catch(PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
@@ -89,9 +92,20 @@
                 wrongfeedback varchar(100),
                 category TINYINT,
                 difficulty TINYINT,
-                PRIMARY KEY (id)
+                PRIMARY KEY (id),
+                CONSTRAINT unique_question UNIQUE (questiontext, answer1, answer2, answer3, answer4)
                )";
             $this->tableQuestions = $this->connection->prepare($sql);
+
+            $sql = "CREATE TABLE IF NOT EXISTS reviews(
+                questionId int(11) NOT NULL,
+                userId int(11) NOT NULL,
+                reviewText varchar(300),
+                PRIMARY KEY (questionId, userId)
+            )";
+
+            $this->tableReviews = $this->connection->prepare($sql);
+
             
             // $sql = "INSERT INTO marks(studentFN, mark) VALUES(:fn, :mark)";
             // $this->insertMark = $this->connection->prepare($sql);
@@ -137,6 +151,12 @@
 
             $sql = "DELETE from questions where id = :id";
             $this->deleteQuestionById = $this->connection->prepare($sql);
+
+            $sql = "SELECT * FROM reviews WHERE questionId = :questionId";
+            $this->selectReviewsByQuestionId = $this->connection->prepare($sql);
+
+            $sql = "SELECT * FROM reviews WHERE userId = :userId";
+            $this->selectReviewsByUserId = $this->connection->prepare($sql);
         
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
             // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
@@ -172,6 +192,15 @@
         public function createTableTokens() {
             try {
                 $this->tableTokens->execute();
+                return ["success" => true];
+            } catch(PDOException $e) {
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function createTableReviews() {
+            try {
+                $this->tableReviews->execute();
                 return ["success" => true];
             } catch(PDOException $e) {
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
@@ -247,6 +276,28 @@
                 $this->selectQuestionsByCategory->execute($data);
 
                 return ["success" => true, "data" => $this->selectQuestionsByCategory];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectReviewsByQuestionIdQuery($data) {
+            try {
+                $this->selectReviewsByQuestionId->execute($data);
+
+                return ["success" => true, "data" => $this->selectReviewsByQuestionId];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectReviewsByUserIdQuery($data) {
+            try {
+                $this->selectReviewsByUserId->execute($data);
+
+                return ["success" => true, "data" => $this->selectReviewsByUserId];
             } catch(PDOException $e) {
                 $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
