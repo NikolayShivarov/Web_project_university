@@ -59,8 +59,8 @@ if(isset($_POST['select_category'])) {
             <th>Answer2</th>
             <th>Answer3</th>
             <th>Answer4</th>
-            <th>Answer5</th>
-            <th>Answer6</th>
+            <th>Difficulty</th>
+            <th>fn</th>
             <th>Correct</th>
             <th>Category</th>
        </tr>
@@ -71,8 +71,8 @@ if(isset($_POST['select_category'])) {
             <td><?php echo $question['answer2'] ?></td>
             <td><?php echo $question['answer3'] ?></td>
             <td><?php echo $question['answer4'] ?></td>
-            <td><?php echo $question['answer5'] ?></td>
-            <td><?php echo $question['answer6'] ?></td>
+            <td><?php echo $question['difficulty'] ?></td>
+            <td><?php echo $question['fn'] ?></td>
             <td><?php echo $question['correctAnswer'] ?></td>
             <td><?php echo $question['category'] ?></td>
             <td>

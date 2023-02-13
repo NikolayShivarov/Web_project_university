@@ -14,10 +14,11 @@ if((!empty($_FILES["filename"])) && ($_FILES['filename']['error'] == 0)) {
   //   $line = fgetcsv($file);
   //   echo $line. "<br>";
   //   }
-   while($arr = fgetcsv($file) ){
+   while($arr = fgetcsv($file,3000,";") ){
        if(sizeof($arr) > 1){
                 print_r($arr);
                 echo count($arr);
+                echo nl2br("\n\n");
                 $currenQuestion = new Question($arr);
                 $currenQuestion->addQuestionToDatabase();
        }

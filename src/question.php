@@ -23,7 +23,7 @@
             $this->category = $arr[14];
             $this->difficulty = $arr[10];
             $this->correctfeedback = $arr[11];
-            $this->correctfeedback = $arr[12];
+            $this->wrongfeedback = $arr[12];
             $this->db = new Database();
         }
 
