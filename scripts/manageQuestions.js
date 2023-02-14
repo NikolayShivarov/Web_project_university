@@ -1,34 +1,34 @@
 var ajax = new XMLHttpRequest();
-  ajax.open("GET", "../src/get_categories.php", true);
+  ajax.open("GET", "../src/get_fn.php", true);
   ajax.send();
-  var categories = [];
+  var fn = [];
   
   ajax.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
           var data = JSON.parse(this.responseText);
           console.log(data);
           for(var i = 0; i < data.length; i++) {
-              categories[i] = data[i].category;
+              fn[i] = data[i].fn;
           }
   
       }
   };
-  console.log(categories);
-  var selectTest = document.getElementById('test_selection');
- function addCategories(){
-    for(var i = 0; i < categories.length; i++) {
+  console.log(fn);
+  var selectTest = document.getElementById('test_fn');
+ function addFn(){
+    for(var i = 0; i < fn.length; i++) {
         var option = document.createElement("option");
-        option.text = categories[i];
-        option.value = categories[i];
+        option.text = fn[i];
+        option.value = fn[i];
         selectTest.add(option);
         
       }
  }
- window.setTimeout(addCategories,100);
- var selectedCategory = "All"; 
- function getSelectedCategory()
+ window.setTimeout(addFn,100);
+ var selectedFn = "All"; 
+ function getSelectedFn()
         {
-             selectedCategory = selectTest.value;
+             selectedFn = selectTest.value;
              
         }
  function load(data){
@@ -38,6 +38,6 @@ var ajax = new XMLHttpRequest();
     console.log(data);
 }
  function passValue(){
-    localStorage.setItem("textvalue",selectedCategory);
+    localStorage.setItem("textvalue",selectedFn);
     window.location = './test.php';
  }        

@@ -47,9 +47,27 @@ if(isset($_POST['select_category'])) {
 <div>
     <form action = "<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" >
     <select name =  "select_category" id="test_selection" onchange="this.form.submit();">
-        <option value="1" selected>Select category</option>
+        <option value="0" selected>Select category</option>
+        <option value="All">All</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select>
+
+    <select name = "select_difficulty" id = "test_difficulty">
+    <option value="0" selected>All</option>
+    <option value="1" >1</option>
+    <option value="2" >2</option>
+    <option value="3" >3</option>
+    <option value="4" >4</option>
+    <option value="5" >5</option>
+    </select>
+    
+    <select name =  "select_fn" id="test_fn">
+        <option value="1" selected>Select fn</option>
         <option value="All">All</option>
     </select>
+
     </form>
     <h1>Manage Questions</h1>
     <table cellspacing="2" cellpadding="2" borders="1">

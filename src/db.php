@@ -26,6 +26,7 @@
         private $deleteSpecificReview;
         private $selectReviewsByQuestionId;
         private $selectReviewsByUserId;
+        private $selectAllFn;
 
         private $tableStudents;
         private $tableTokens;
@@ -182,6 +183,9 @@
 
             $sql = "SELECT * FROM questions WHERE id = :id";
             $this->selectQuestionById = $this->connection->prepare($sql);
+
+            $sql = "SELECT distinct fn FROM questions";
+            $this->selectAllFn = $this->connection->prepare($sql);
         
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
             // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
@@ -505,6 +509,17 @@
                 return ["success" => true];
             } catch(PDOException $e) {
                 //$this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectAllFnQuery() {
+            try {
+                $this->selectAllFn->execute();
+
+                return ["success" => true, "data" => $this->selectAllFn];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
