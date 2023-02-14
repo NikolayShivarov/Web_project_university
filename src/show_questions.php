@@ -55,7 +55,8 @@ if(isset($_POST['select_category'])) {
     </select>
 
     <select name = "select_difficulty" id = "test_difficulty">
-    <option value="0" selected>All</option>
+    <option value="0" selected>Select difficulty</option>
+    <option value="All">All</option>
     <option value="1" >1</option>
     <option value="2" >2</option>
     <option value="3" >3</option>
