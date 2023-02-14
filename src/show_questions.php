@@ -1,4 +1,5 @@
 <?php
+require_once 'auth_session.php';
 require_once "db.php";
 $db = new Database();
 $result = array();
@@ -97,7 +98,12 @@ if(isset($_POST['select_category'])) {
             <td>
                 <a onclick="return confirm('Do you want to delete this question?');" class="delete-button" href="show_questions.php?questiontext=<?php
                  echo $question['questiontext'] ?>&action=delete"><button class="delete-btn">DELETE</button></a>
-            </td>    
+            </td> 
+            
+            <td>              
+            <a onclick="return confirm('Do you want to view this question?');" class="view-button" href="question_info.php?questionId=<?php
+                 echo $question['id'] ?>&action=view"><button class="view-btn">VIEW</button></a>
+            </td>
             
        </tr>
 

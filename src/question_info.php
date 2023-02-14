@@ -3,6 +3,9 @@
     require_once "db.php";
     $db = new Database();
     $questionId = 1;
+    if(isset($_GET['action']) && $_GET['action'] == 'view'){   
+        $questionId = $_GET['questionId'];
+    }
     $query = $db->selectQuestionByIdQuery(["id" => $questionId]);
     $result = $query["data"]->fetch(PDO::FETCH_ASSOC);
 
