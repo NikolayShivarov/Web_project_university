@@ -8,7 +8,7 @@
     $questions = array();
     for ($i = 0; $i < sizeof($result) ; $i++ ){
            $questionId = $result[$i]['questionId'];
-           $query = $db->selectQuestionTextByIdQuery(["questionId" => $questionId]);
+           $query = $db->selectQuestionTextByIdQuery(["id" => $questionId]);
            $data = $query["data"]->fetch(PDO::FETCH_ASSOC);
            $questions[$i] = $data['questiontext'];
     }
@@ -43,7 +43,7 @@
        </tr>
        <?php for ($i = 0; $i < sizeof($result) ; $i++ ){ ?>
         <tr>
-            <td><?php echo $questions[$i]['questiontext'] ?></td>
+            <td><?php echo $questions[$i] ?></td>
             <td><?php echo $result[$i]['reviewText'] ?></td>   
             
        </tr>

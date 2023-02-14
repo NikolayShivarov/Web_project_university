@@ -83,7 +83,7 @@
        <?php for ($i = 0; $i < sizeof($reviews) ; $i++ ){ ?>
         <tr>
             <td><?php echo $usernames[$i] ?></td>
-            <td><?php echo $result[$i]['reviewText'] ?></td>   
+            <td><?php echo $reviews[$i]['reviewText'] ?></td>   
             
        </tr>
 
