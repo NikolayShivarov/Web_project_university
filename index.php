@@ -21,7 +21,7 @@
       <li><a class="active" href="index.php">Home</a></li>
       <li><a href="addtest.php">Import Questions</a></li>
       <li><a href="#contact">Export Questions</a></li>
-      <li><a href="./src/show_questions.php">Manage questions</a></li>
+      <li><a href="show_questions.php">Manage questions</a></li>
       <li><a href="test_menu.php">Test menu</a></li>
     </ul> 
   </header>

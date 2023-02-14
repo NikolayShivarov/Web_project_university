@@ -1,6 +1,6 @@
 <?php
-require_once 'auth_session.php';
-require_once "db.php";
+require_once './src/auth_session.php';
+require_once "./src/db.php";
 $db = new Database();
 $result = array();
 if(isset($_GET['action']) && $_GET['action'] == 'delete'){   
@@ -29,20 +29,20 @@ if(isset($_POST['select_category'])) {
 <html lang="en">
 <head>
     <meta chareset="utf-8"/>
-    <script defer src="../scripts/sendRequestUtility.js"></script>
-    <script defer src="../scripts/manageQuestions.js"></script>
-    <link rel="stylesheet" href="../styles/index.css"/>
+    <script defer src="./scripts/sendRequestUtility.js"></script>
+    <script defer src="./scripts/manageQuestions.js"></script>
+    <link rel="stylesheet" href="./styles/index.css"/>
     <title>Managing questions</title>
 </head>
 <body>
 <header>
         <ul>
-          <li><button id="../logout">Logout</button></li>
-          <li><a href="../index.php">Home</a></li>
-          <li><a  href="../addtest.php">Import Questions</a></li>
+          <li><button id="./logout">Logout</button></li>
+          <li><a href="./index.php">Home</a></li>
+          <li><a  href="./addtest.php">Import Questions</a></li>
           <li><a href="#contact">Export Questions</a></li>
-          <li><a class="active" href="show_questions.php">Manage questions</a></li>
-          <li><a href="../test_menu.php">Test menu</a></li>
+          <li><a class="active" href="./show_questions.php">Manage questions</a></li>
+          <li><a href="./test_menu.php">Test menu</a></li>
         </ul> 
 </header>   
 <div>

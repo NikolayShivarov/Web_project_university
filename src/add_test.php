@@ -24,8 +24,6 @@ if((!empty($_FILES["filename"])) && ($_FILES['filename']['error'] == 0)) {
        }
                 }
 
-  header("Location: ../addtest.php");
-
   } else {
      echo "Error: Only csv files are accepted for upload";
   }

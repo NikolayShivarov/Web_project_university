@@ -35,7 +35,7 @@
         private $tableReviews;
 
         public function __construct() {
-            $config = parse_ini_file('../config/config.ini', true);
+            $config = parse_ini_file('./config/config.ini', true);
 
             $type = $config['db']['db_type'];
             $host = $config['db']['host'];
@@ -67,6 +67,7 @@
                 username varchar(50) NOT NULL,
                 email varchar(50) NOT NULL,
                 pass varchar(100) NOT NULL,
+                isadmin boolean DEFAULT 0,
                 PRIMARY KEY (id)
                )";
             $this->tableStudents = $this->connection->prepare($sql);
@@ -78,13 +79,6 @@
                 PRIMARY KEY (user_id)
                )";
             $this->tableTokens = $this->connection->prepare($sql);
-
-            // $sql = "CREATE TABLE IF NOT EXISTS tests(
-            //     id int(11) NOT NULL AUTO_INCREMENT,
-            //     testname varchar(30),
-            //     PRIMARY KEY (id)
-            //    )";
-            // $this->tableTests = $this->connection->prepare($sql);
 
             $sql = "CREATE TABLE IF NOT EXISTS questions(
                 id int(11) NOT NULL AUTO_INCREMENT,
@@ -112,19 +106,6 @@
             )";
 
             $this->tableReviews = $this->connection->prepare($sql);
-
-            
-            // $sql = "INSERT INTO marks(studentFN, mark) VALUES(:fn, :mark)";
-            // $this->insertMark = $this->connection->prepare($sql);
-
-            // $sql = "SELECT * FROM marks WHERE studentFn = :fn";
-            // $this->selectMark = $this->connection->prepare($sql);
-
-            // $sql = "SELECT * FROM marks";
-            // $this->selectMarks = $this->connection->prepare($sql);
-
-            // $sql = "SELECT * FROM students WHERE fn = :fn";
-            // $this->selectStudent = $this->connection->prepare($sql);
 
             $sql = "SELECT * FROM users WHERE username = :username";
             $this->selectUser = $this->connection->prepare($sql);
@@ -190,15 +171,6 @@
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
             // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
         }
-
-        // public function createTableTests() {
-        //     try {
-        //         $this->tableTests->execute();
-        //         return ["success" => true];
-        //     } catch(PDOException $e) {
-        //         return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
-        //     }
-        // }
 
         public function createTableQuestions() {
             try {
