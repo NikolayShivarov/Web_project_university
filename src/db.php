@@ -16,6 +16,8 @@
         private $selectStudentsWithMarks;
         private $selectAllQuestions;
         private $selectQuestionsByCategory;
+        private $selectQuestionTextById;
+        private $selectQuestionById;
         private $deleteQuestionByName;
         private $selectCategories;
         private $deleteQuestionById;
@@ -174,6 +176,12 @@
 
             $sql = "SELECT * FROM reviews WHERE userId = :userId";
             $this->selectReviewsByUserId = $this->connection->prepare($sql);
+
+            $sql = "SELECT questiontext FROM questions WHERE id = :id";
+            $this->selectQuestionTextById = $this->connection->prepare($sql);
+
+            $sql = "SELECT * FROM questions WHERE id = :id";
+            $this->selectQuestionById = $this->connection->prepare($sql);
         
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
             // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
@@ -293,6 +301,28 @@
                 $this->selectQuestionsByCategory->execute($data);
 
                 return ["success" => true, "data" => $this->selectQuestionsByCategory];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectQuestionTextByIdQuery($data) {
+            try {
+                $this->selectQuestionTextById->execute($data);
+
+                return ["success" => true, "data" => $this->selectQuestionTextById];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectQuestionByIdQuery($data) {
+            try {
+                $this->selectQuestionById->execute($data);
+
+                return ["success" => true, "data" => $this->selectQuestionById];
             } catch(PDOException $e) {
                 $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
