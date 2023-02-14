@@ -76,3 +76,8 @@ td {
   text-align: center;
   vertical-align: middle;
 }
+
+.view-btn {
+  background-color: #ccc427;
+  color: white;
+}
