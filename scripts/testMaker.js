@@ -7,32 +7,69 @@ function startQuiz() {
   var arrowRight   = document.getElementById('next_question');
   var finishButton = document.getElementById('finish');
   var counter      = document.getElementById('counter');
-  var feedback     = document.getElementById('feedback');
-  var p            = document.getElementById('text2');  
+  var feedbackbtn  = document.getElementById('sendfeedback');
+  var sendReview   = document.getElementById('sendR');
+  var p            = document.getElementById('text2');
+  var review       = document.getElementById('freeform');
   var current      = 0;
   var answeredQuestions = [];
+
+  var modal = document.getElementById("popup");
+  var span = document.getElementsByClassName("close")[0];
+
+  feedbackbtn.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  function load(data){
+    console.log(data);
+  }
+
+  function handleError(){
+
+  }
+
+  sendReview.onclick = function() {
+
+    var text = review.value;
+
+    var rev = {
+      'questionId': questions[current].questionId,
+      'text': text,
+    };
+
+    sendRequest('./src/add_review.php', { method: 'POST', data: `data=${JSON.stringify(rev)}` }, load, handleError);
+    modal.style.display = "none";
+  }
+
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
   
   arrowLeft.addEventListener("click",loadPrev);
   arrowRight.addEventListener("click",loadNext);
   finishButton.addEventListener("click",finish());
   finishButton.style.visibility = "hidden";
+  feedbackbtn.style.visibility = "hidden";
 
   function loadPrev(){
-    //return function () {
       if(current > 0){
         current -= 1;
         loadQuestion(current);
       }
-    //};
   }
 
   function loadNext(){
-    //return function () {
       if(current < questions.length - 1){
         current += 1;
         loadQuestion(current);
       }                       
-    //};
   }
   
   function loadQuestion() {
@@ -83,21 +120,17 @@ function startQuiz() {
   }
 
   function loadPrevM(){
-    //return function () {
       if(current > 0){
         current -= 1;
         loadQuestionReview(current);
       }
-    //};
   }
 
   function loadNextM(){
-    //return function () {
       if(current < questions.length - 1){
         current += 1;
         loadQuestionReview(current);
       }                       
-    //};
   }
 
   function loadQuestionReview(){
@@ -111,7 +144,6 @@ function startQuiz() {
     questionArea.innerHTML = '';
     questionArea.innerHTML = question;   
     answerArea.innerHTML = '';
-    var corretlyAnswered = false;
     
     for (var i = 0; i < answers.length; i += 1) {
       
@@ -153,6 +185,7 @@ function startQuiz() {
     }else{
       p.innerHTML = questions[current].wrongFeedback;
     }
+
   }
   
 
@@ -160,6 +193,7 @@ function startQuiz() {
     return function () {
     
       finishButton.style.visibility = "hidden";
+      feedbackbtn.style.visibility = "visible";
       arrowLeft.removeEventListener("click", loadPrev);
       arrowRight.removeEventListener("click", loadNext);
        

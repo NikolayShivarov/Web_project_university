@@ -24,7 +24,7 @@ function load(data){
     var category = data[i].category;
     var correctFeedback = data[i].correctfeedback;
     var wrongFeedback = data[i].wrongfeedback;
-    var questionId = data[i].questionId;
+    var questionId = data[i].id;
     var fn = data[i].fn;
     q = new Question(question, answers, correctIndex ,category, correctFeedback, wrongFeedback, questionId, fn);
     questions[i]=q; 

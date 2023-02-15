@@ -19,6 +19,24 @@
         <link rel="stylesheet" href="styles/index.css"/>
     </head>
 
+    <div id="popup" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class = "centered">
+              <label for="freeform">Review this question:</label>
+            </div>
+            <div class = "centered">
+              <textarea id="freeform" name="freeform" rows="10" cols="70">
+              </textarea>
+            </div>
+            <div class = "centered">
+              <button id="sendR" class="specialbutton">
+                  Submit
+              </button>
+            </div>        
+        </div>
+    </div>
+
     <body>
         <ul id = "nav">
           <li><button class="smallspecialbutton" id="logout">Logout</button></li>
@@ -47,7 +65,9 @@
               <button id="finish" class="specialbutton">Finish</button>
               <div id="feedback">
                 <p id="text2"></p>
-                
+                <button id="sendfeedback" class="smallspecialbutton">
+                    Add a Review
+                </button>
               </div>                    
             </div> 
           </div>        

@@ -24,6 +24,6 @@
       <li><a href="src/view_user_reviews.php">Your reviews</a></li>
     </ul> 
   </header>
-  
+  <h1><?php echo "Welcome " . $_SESSION['username'];?></h1>
 </body>
 </html>
