@@ -1,4 +1,4 @@
-function Question(questionText, answers, correctIndex, category, correctFeedback, wrongFeedback, questionId){
+function Question(questionText, answers, correctIndex, category, correctFeedback, wrongFeedback, questionId, fn){
     this.questionText = questionText;
     this.answers = answers;
     this.correctIndex = correctIndex;
@@ -6,6 +6,7 @@ function Question(questionText, answers, correctIndex, category, correctFeedback
     this.correctFeedback = correctFeedback;
     this.wrongFeedback = wrongFeedback;
     this.questionId = questionId;
+    this.fn = fn;
   
   }
 
@@ -24,7 +25,8 @@ function load(data){
     var correctFeedback = data[i].correctfeedback;
     var wrongFeedback = data[i].wrongfeedback;
     var questionId = data[i].questionId;
-    q = new Question(question, answers, correctIndex ,category, correctFeedback, wrongFeedback, questionId);
+    var fn = data[i].fn;
+    q = new Question(question, answers, correctIndex ,category, correctFeedback, wrongFeedback, questionId, fn);
     questions[i]=q; 
     console.log(questions[i]);
   }

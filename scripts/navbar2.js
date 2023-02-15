@@ -11,7 +11,7 @@ var navbar;
     //  */
     // register.addEventListener('click', sendForm);
     navbar = document.getElementById('nav');
-    sendRequest('./src/is_admin.php', { method: 'GET', data: `category=All` }, load, err);
+    sendRequest('./is_admin.php', { method: 'GET', data: `category=All` }, load, err);
 })();
 
 function load(data){
@@ -19,13 +19,13 @@ function load(data){
         var li = document.createElement("li");
         var a = document.createElement('a');
         a.innerHTML = "Manage questions";
-        a.href = './src/show_questions.php';
+        a.href = './show_questions.php';
         li.appendChild(a);
         navbar.appendChild(li);
         var li = document.createElement("li");
         var a = document.createElement('a');
         a.innerHTML = "Import Questions";
-        a.href = './addtest.php';
+        a.href = '../addtest.php';
         li.appendChild(a);
         navbar.appendChild(li);
         var li = document.createElement("li");
@@ -34,7 +34,7 @@ function load(data){
         //a.href = './addtest.php';
         li.appendChild(a);
         navbar.appendChild(li);
-    }  
+    }
 }
 
 function err(){

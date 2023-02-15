@@ -1,5 +1,6 @@
 <?php
     if (isset($_SESSION)) {
+        $_SESSION['username'] = null;
         session_unset();
 
         session_destroy();

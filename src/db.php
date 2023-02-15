@@ -46,7 +46,7 @@
         private $tableRatings;
 
         public function __construct() {
-            $config = parse_ini_file('config/config.ini', true);
+            $config = parse_ini_file('../config/config.ini', true);
 
             $type = $config['db']['db_type'];
             $host = $config['db']['host'];
@@ -81,7 +81,8 @@
                 email varchar(50) NOT NULL,
                 pass varchar(100) NOT NULL,
                 isadmin boolean DEFAULT 0,
-                PRIMARY KEY (id)
+                PRIMARY KEY (id),
+                CONSTRAINT unique_username UNIQUE (username)
                )";
             $this->tableStudents = $this->connection->prepare($sql);
             

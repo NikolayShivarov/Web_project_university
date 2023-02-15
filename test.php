@@ -11,6 +11,7 @@
         <title>Test</title>
 
         <script defer src="scripts/sendRequestUtility.js"></script>
+        <script defer src="scripts/navbar.js"></script>
         <script defer src="scripts/question.js"></script>
         <script defer src="scripts/testMaker.js"></script>
         <script defer src="scripts/index.js"></script>
@@ -19,12 +20,11 @@
     </head>
 
     <body>
-        <ul>
-          <li><a href="index.">Home</a></li>
-          <li><a href="addtest.php">Import Questions</a></li>
-          <li><a href="#contact">Export Questions</a></li>
-          <li><a href="show_questions.php">Manage questions</a></li>
+        <ul id = "nav">
+          <li><button class="smallspecialbutton" id="logout">Logout</button></li>
+          <li><a href="index.php">Home</a></li>
           <li><a class="active" href="test_menu.php">Test menu</a></li>
+          <li><a href="src/view_user_reviews.php">Your reviews</a></li>
         </ul> 
         <main>
           <div class="wrapper">
@@ -34,32 +34,22 @@
               <p class="questions"></p>
               
               <div class="answers"></div>         
-              <div id="last_question">
-                <img id="left_a" src="img/arrow_left.png" class="arrow" >
+              <div class="left_a">
+                <button id="last_question" class="smallspecialbutton">
+                    Prev
+                </button>
               </div>
-              <div id="next_question">
-                <img id="right_a" src="img/arrow_right.png" class="arrow" >
+              <div class="right_a">
+                <button id="next_question" class="smallspecialbutton">
+                    Next
+                </button>
               </div>
               <button id="finish" class="specialbutton">Finish</button>
-              <div class="checkAnswers">
-                <h3>Correct?</h3>
+              <div id="feedback">
+                <p id="text2"></p>
                 
-                <div class="checker">
-
-                </div>
-              </div>
-              <!-- <button id="last_question" class="specialbutton">
-                  <img   class="left_a" src="img/arrow_left.png" class="arrow" >
-              </button>
-              <button id="next_question" class="specialbutton">
-                  <img  class="right_a" src="img/arrow_right.png" class="arrow" >
-              </button> -->
-              
-                    
+              </div>                    
             </div> 
-            <div class="info">
-              <p class="feedback">Question:1</h>
-            </div>
           </div>        
         </main>
     </body>

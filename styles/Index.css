@@ -36,6 +36,31 @@ li a:hover:not(.active) {
   background-color: #04AA6D;
 }
 
+.smallspecialbutton {
+  display: inline-block;
+  padding: 7px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 9px #999;
+}
+
+.smallspecialbutton:hover {background-color: #3e8e41}
+
+.smallspecialbutton:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+
+
 .specialbutton {
   display: inline-block;
   padding: 15px 25px;
