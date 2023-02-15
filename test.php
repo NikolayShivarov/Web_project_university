@@ -37,6 +37,24 @@
         </div>
     </div>
 
+    <div id="popup2" class="modal">
+        <div class="modal-content">
+            <span class="close2">&times;</span>
+            <div class = "centered">
+              <label for="freeform">Rate this question:</label>
+            </div>
+            <div class = "centered">
+              <textarea id="freeform2" name="freeform2" rows="1" cols="2">
+              </textarea>
+            </div>
+            <div class = "centered">
+              <button id="sendRA" class="specialbutton">
+                  Submit
+              </button>
+            </div>        
+        </div>
+    </div>
+
     <body>
         <ul id = "nav">
           <li><button class="smallspecialbutton" id="logout">Logout</button></li>
@@ -68,7 +86,12 @@
                 <button id="sendfeedback" class="smallspecialbutton">
                     Add a Review
                 </button>
-              </div>                    
+              </div> 
+              <div id="rating">
+                <button id="sendrating" class="smallspecialbutton">
+                    Add a Rating
+                </button>
+              </div>                   
             </div> 
           </div>        
         </main>
