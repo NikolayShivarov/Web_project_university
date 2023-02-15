@@ -27,15 +27,26 @@
         private $selectReviewsByQuestionId;
         private $selectReviewsByUserId;
         private $selectAllFn;
+        private $selectStatisticById;
+        private $insertStatistic;
+        private $addCorrectById; 
+        private $addWrongById;
+        private $insertRating;
+        private $selectRatingByUserId;
+        private $selectRatingByQuestionId;
+        private $deleteRatingByQuestionId;
+
 
         private $tableStudents;
         private $tableTokens;
         private $tableQuestions;
         private $tableTests;
         private $tableReviews;
+        private $tableStatistic;
+        private $tableRatings;
 
         public function __construct() {
-            $config = parse_ini_file('./config/config.ini', true);
+            $config = parse_ini_file('config/config.ini', true);
 
             $type = $config['db']['db_type'];
             $host = $config['db']['host'];
@@ -56,6 +67,8 @@
                 $this->createTableTokens();
                 $this->createTableReviews();
                 $this->createTableQuestions();
+                $this->createTableStatistic();
+                $this->createTableRatings();
             } catch(PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
             }
@@ -106,6 +119,26 @@
             )";
 
             $this->tableReviews = $this->connection->prepare($sql);
+
+            $sql = "CREATE TABLE IF NOT EXISTS statistic(
+                id int(11) NOT NULL,
+                correct int(11) NOT NULL,
+                wrong int(11) NOT NULL,
+                PRIMARY KEY (questionId)
+            )";
+
+            $this->tableStatistic = $this->connection->prepare($sql);
+
+            $sql = "CREATE TABLE IF NOT EXISTS ratings(
+                userId int(11) NOT NULL,
+                questionId int(11) NOT NULL,
+                rating tinyint NOT NULL,
+                PRIMARY KEY (userId,questionId),
+                CONSTRAINT rating_size CHECK (rating BETWEEN 0 AND 10)
+            )";
+
+            $this->tableRatings = $this->connection->prepare($sql);
+            
 
             $sql = "SELECT * FROM users WHERE username = :username";
             $this->selectUser = $this->connection->prepare($sql);
@@ -167,6 +200,30 @@
 
             $sql = "SELECT distinct fn FROM questions";
             $this->selectAllFn = $this->connection->prepare($sql);
+
+            $sql = "SELECT * FROM statistic WHERE id = :id";
+            $this->selectStatisticById = $this->connection->prepare($sql);
+
+            $sql = "INSERT INTO statistic(id, correct, wrong) VALUES (:id, 0, 0)";
+            $this->insertStatistic = $this->connection->prepare($sql);
+
+            $sql = "UPDATE statistic SET correct = correct + 1 WHERE id = :id";
+            $this->addCorrectById = $this->connection->prepare($sql);
+
+            $sql = "UPDATE statistic SET wrong = wrong + 1 WHERE id = :id";
+            $this->addWrongById = $this->connection->prepare($sql);
+
+            $sql = "INSERT INTO ratings(userId, questionId, rating) VALUES (:userId, :questionId, :rating)";
+            $this->insertRating = $this->connection->prepare($sql);
+
+            $sql = "SELECT * FROM ratings WHERE userId = :userId";
+            $this->selectRatingByUserId = $this->connection->prepare($sql);
+
+            $sql = "SELECT * FROM ratings WHERE questionId = :questionId";
+            $this->selectRatingByQuestionId = $this->connection->prepare($sql);
+            
+            $sql = "DELETE FROM ratings WHERE questionId = :questionId";
+            $this->deleteRatingByQuestionId = $this->connection->prepare($sql);
         
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
             // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
@@ -202,6 +259,24 @@
         public function createTableReviews() {
             try {
                 $this->tableReviews->execute();
+                return ["success" => true];
+            } catch(PDOException $e) {
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function createTableStatistic() {
+            try {
+                $this->tableStatistic->execute();
+                return ["success" => true];
+            } catch(PDOException $e) {
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function createTableRatings() {
+            try {
+                $this->tableRatings->execute();
                 return ["success" => true];
             } catch(PDOException $e) {
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
@@ -490,6 +565,95 @@
                 $this->selectAllFn->execute();
 
                 return ["success" => true, "data" => $this->selectAllFn];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        
+
+        public function selectStatisticByIdQuery($data) {
+            try {
+                $this->selectStatisticById->execute($data);
+
+                return ["success" => true, "data" => $this->selectStatisticById];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function addCorrectByIdQuery($data) {
+            try {
+                $this->addCorrectById->execute($data);
+
+                return ["success" => true];
+            } catch(PDOException $e) {
+                //$this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function addWrongByIdQuery($data) {
+            try {
+                $this->addWrongById->execute($data);
+
+                return ["success" => true];
+            } catch(PDOException $e) {
+                //$this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function insertStatisticQuery($data) {
+            try {
+                $this->insertStatistic->execute($data);
+
+                return ["success" => true];
+            } catch(PDOException $e) {
+                //$this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function insertRatingQuery($data) {
+            try {
+                $this->insertRating->execute($data);
+
+                return ["success" => true];
+            } catch(PDOException $e) {
+                //$this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectRatingByUserIdQuery($data) {
+            try {
+                $this->selectRatingByUserId->execute($data);
+
+                return ["success" => true, "data" => $this->selectRatingByUserId];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectRatingByQuestionIdQuery($data) {
+            try {
+                $this->selectRatingByQuestionId->execute($data);
+
+                return ["success" => true, "data" => $this->selectRatingByQuestionId];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function deleteRatingByQuestionIdQuery($data) {
+            try {
+                $this->deleteRatingByQuestionId->execute($data);
+                return array("success" => true);
             } catch(PDOException $e) {
                 $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];

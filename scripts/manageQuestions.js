@@ -37,7 +37,4 @@ var ajax = new XMLHttpRequest();
  function handleError(data){
     console.log(data);
 }
- function passValue(){
-    localStorage.setItem("textvalue",selectedFn);
-    window.location = './test.php';
- }        
+        
