@@ -45,6 +45,10 @@
 
         public function addQuestionToDatabase() {
             $query = $this->db->insertQuestionQuery(['questiontext' => $this->question, 'answer1' => $this->answers[0],'answer2' => $this->answers[1],'answer3' => $this->answers[2],'answer4' => $this->answers[3],'correctAnswer' => $this->correctAnswerIndex,'fn' => $this->fn,'correctfeedback' => $this->correctfeedback,'wrongfeedback' => $this->wrongfeedback  ,'category' => $this->category, 'difficulty' => $this->difficulty ]);
+            $query = $this->db->selectMaxIdQuery();
+            $data = $query["data"]->fetch(PDO::FETCH_ASSOC);
+            $id = $data['max_id'];
+            $query = $this->db->insertStatisticQuery(['id' => $id]);
         }
     }
 ?>

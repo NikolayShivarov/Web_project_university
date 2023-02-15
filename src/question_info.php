@@ -21,6 +21,19 @@
            $data = $query["data"]->fetch(PDO::FETCH_ASSOC);
            $usernames[$i] = $data['username'];
     }
+
+    $query = $db->selectStatisticById(["id" => $questionId]);
+    $stats = $query["data"]->fetch(PDO::FETCH_ASSOC);
+    
+    $query = $db->selectRatingByQuestionId(["questionId" => $questionId]);
+    $usernames2 = array();
+    $ratings = $query["data"]->fetchAll(PDO::FETCH_ASSOC);
+    for ($i = 0; $i < sizeof($ratings) ; $i++ ){
+        $userId = $ratings[$i]['userId'];
+        $query = $db->selectUserByIdQuery(["id" => $userId]);
+        $data = $query["data"]->fetch(PDO::FETCH_ASSOC);
+        $usernames2[$i] = $data['username'];
+ }
     
 ?>
 
@@ -92,7 +105,39 @@
         <?php } ?>
 
     </table>
+
+    <h1>Here are the question statistics</h1>
+<table cellspacing="2" cellpadding="2" borders="1">
+        <tr>
+            <th>Correct</th>
+            <th>Wrong</th>
+       </tr>
+       
+        <tr>
+            <td><?php echo $stats['correct'] ?></td>
+            <td><?php echo $stats['wrong'] ?></td>   
+            
+       </tr>
+
+    </table>
     
+
+    <h1>Here are the question ratings</h1>
+<table cellspacing="2" cellpadding="2" borders="1">
+        <tr>
+            <th>User</th>
+            <th>Rating</th>
+       </tr>
+       <?php for ($i = 0; $i < sizeof($ratings) ; $i++ ){ ?>
+        <tr>
+            <td><?php echo $usernames2[$i] ?></td>
+            <td><?php echo $ratings[$i]['rating'] ?></td>   
+            
+       </tr>
+
+        <?php } ?>
+
+    </table>
     
 
 </body>

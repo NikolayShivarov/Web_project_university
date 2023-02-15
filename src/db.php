@@ -35,6 +35,7 @@
         private $selectRatingByUserId;
         private $selectRatingByQuestionId;
         private $deleteRatingByQuestionId;
+        private $selectMaxId;
 
 
         private $tableStudents;
@@ -225,6 +226,9 @@
             
             $sql = "DELETE FROM ratings WHERE questionId = :questionId";
             $this->deleteRatingByQuestionId = $this->connection->prepare($sql);
+
+            $sql = "SELECT MAX(id) AS max_id FROM questions";
+            $this->selectMaxId = $this->connection->prepare($sql);
         
             // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
             // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
@@ -655,6 +659,17 @@
             try {
                 $this->deleteRatingByQuestionId->execute($data);
                 return array("success" => true);
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectMaxIdQuery() {
+            try {
+                $this->selectMaxId->execute();
+
+                return ["success" => true, "data" => $this->selectMaxId];
             } catch(PDOException $e) {
                 $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
