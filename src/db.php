@@ -126,7 +126,7 @@
                 id int(11) NOT NULL,
                 correct int(11) NOT NULL,
                 wrong int(11) NOT NULL,
-                PRIMARY KEY (questionId)
+                PRIMARY KEY (id)
             )";
 
             $this->tableStatistic = $this->connection->prepare($sql);

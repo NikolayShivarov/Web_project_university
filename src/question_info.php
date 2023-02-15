@@ -22,10 +22,10 @@
            $usernames[$i] = $data['username'];
     }
 
-    $query = $db->selectStatisticById(["id" => $questionId]);
+    $query = $db->selectStatisticByIdQuery(["id" => $questionId]);
     $stats = $query["data"]->fetch(PDO::FETCH_ASSOC);
     
-    $query = $db->selectRatingByQuestionId(["questionId" => $questionId]);
+    $query = $db->selectRatingByQuestionIdQuery(["questionId" => $questionId]);
     $usernames2 = array();
     $ratings = $query["data"]->fetchAll(PDO::FETCH_ASSOC);
     for ($i = 0; $i < sizeof($ratings) ; $i++ ){
