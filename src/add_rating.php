@@ -8,7 +8,7 @@
     $userId = $_SESSION['userId'];
 
     $db = new Database();
-    $db->insertRatingQuery([ 'userId' => $userId, 'questionId' => $questionId,'rating' => $review]);
+    $db->insertRatingQuery([ 'userId' => $userId, 'questionId' => $questionId,'rating' => $rating]);
   }
   
 
