@@ -37,18 +37,19 @@ if($_POST) {
     $query = $db->selectAllQuestionsQuery();
     $resarr = $query["data"]->fetchAll(PDO::FETCH_ASSOC);
     $g = 0;
-    $dificulty = $_POST['select_difficulty'];
     for($i = 0;$i < sizeof($resarr);$i++){
         if(checkQuestion($resarr[$i],$_POST['select_category'],$_POST['select_difficulty'],$_POST['select_fn'])){
             $result[$g] = $resarr[$i];
             $g++;
         }         
     } 
+
+    if(isset($_POST['delete_all'])){
+        deleteAllQuestions($result,$db);
+    }
 }
 
-if(array_key_exists('delete-all', $_POST)) {
-    deleteAllQuestions($result, $db);
-}
+
 
 ?>
 
@@ -100,13 +101,10 @@ if(array_key_exists('delete-all', $_POST)) {
         <option value="All">All</option>
     </select>
 
-    <button id="start_test_button" class="smallspecialbutton" type ="submit" value = "Click">Show Results</button>
-    <form method="post">
-        <input onclick="return confirm('Do you want to delete all shown questions?');" type="submit" name="delete-all"
-                class="delete-all" value="delete-all" />
-         
-    </form> 
+    <button class="smallspecialbutton" type ="submit" value = "Click">Show Results</button> 
+    <button class="smallspecialbuttonred" name ="delete_all" value = "Del">Delete All Results</button> 
     </form>
+    
     <h1>Manage Questions</h1>
     <table cellspacing="2" cellpadding="2" borders="1">
         <tr>

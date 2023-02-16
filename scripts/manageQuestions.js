@@ -37,4 +37,11 @@ var ajax = new XMLHttpRequest();
  function handleError(data){
     console.log(data);
 }
+
+// var btn = document.getElementById('delete_all');
+
+// btn.onclick = function(event){
+//     event.preventDefault();
+    
+// }
         
