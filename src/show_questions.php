@@ -4,7 +4,13 @@ require_once "./db.php";
 $db = new Database();
 $result = array();
 if(isset($_GET['action']) && $_GET['action'] == 'delete'){   
-    $query2 = $db->deleteQuestionByNameQuery(['questiontext' => $_GET['questiontext'] ]);
+    deleteQuestion($_GET['questionId'],$db);
+}
+
+function deleteQuestion($questionId,$db){
+     $query = $db->deleteQuestionByIdQuery(['id'=>$questionId]);
+     $query = $db->deleteReviewByQuestionIdQuery(['questionId'=>$questionId]);
+     $query = $db->deleteRatingByQuestionIdQuery(['questionId'=>$questionId]);
 }
 
 function checkQuestion($question,$category,$difficulty,$fn) {
@@ -111,8 +117,8 @@ if($_POST) {
             <td><?php echo $question['correctAnswer'] ?></td>
             <td><?php echo $question['category'] ?></td>
             <td>
-                <a onclick="return confirm('Do you want to delete this question?');" class="delete-button" href="show_questions.php?questiontext=<?php
-                 echo $question['questiontext'] ?>&action=delete"><button class="delete-btn">DELETE</button></a>
+                <a onclick="return confirm('Do you want to delete this question?');" class="delete-button" href="show_questions.php?questionId=<?php
+                 echo $question['id'] ?>&action=delete"><button class="delete-btn">DELETE</button></a>
             </td> 
             
             <td>              
