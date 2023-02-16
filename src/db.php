@@ -18,6 +18,7 @@
         private $selectQuestionsByCategory;
         private $selectQuestionTextById;
         private $selectQuestionById;
+        private $selectQuestionsByFn;
         private $deleteQuestionByName;
         private $selectCategories;
         private $deleteQuestionById;
@@ -200,6 +201,9 @@
             $sql = "SELECT * FROM questions WHERE id = :id";
             $this->selectQuestionById = $this->connection->prepare($sql);
 
+            $sql = "SELECT * FROM questions WHERE fn = :fn";
+            $this->selectQuestionsByFn = $this->connection->prepare($sql);
+
             $sql = "SELECT distinct fn FROM questions";
             $this->selectAllFn = $this->connection->prepare($sql);
 
@@ -379,6 +383,18 @@
                 $this->selectQuestionById->execute($data);
 
                 return ["success" => true, "data" => $this->selectQuestionById];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        
+        public function selectQuestionsByFnQuery($data) {
+            try {
+                $this->selectQuestionsByFn->execute($data);
+
+                return ["success" => true, "data" => $this->selectQuestionsByFn];
             } catch(PDOException $e) {
                 $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
