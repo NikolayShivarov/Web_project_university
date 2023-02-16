@@ -32,7 +32,7 @@
             </div>
             <div class = "centered">
               <label for="ratenum">Rate this question between 1 and 10:</label>
-              <input id="ratenum" type="number" step="1" min="1" max="10" required/>
+              <input id="ratenum" type="number" step="1" min="1" max="10" value="1" required/>
             </div>      
             <div class = "centered">
               <button id="sendR" class="specialbutton">

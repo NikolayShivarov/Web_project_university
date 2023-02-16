@@ -7,17 +7,31 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete'){
     $query2 = $db->deleteQuestionByNameQuery(['questiontext' => $_GET['questiontext'] ]);
 }
 
-if(isset($_POST['select_category'])) {
-    if($_POST['select_category'] != "All"){
-    $query = $db->selectQuestionsByCategoryQuery(["category" => $_POST['select_category']]);
-    $result = $query["data"]->fetchAll(PDO::FETCH_ASSOC);
-}else{
-    $query = $db->selectAllQuestionsQuery();
-    $result = $query['data']->fetchAll(PDO::FETCH_ASSOC);
+function checkQuestion($question,$category,$difficulty,$fn) {
+    if($category != 'All' && $category != 0 && $category != $question['category']){
+        return false;
+    }
+    if($difficulty != 'All' && $difficulty != 0 && $difficulty != $question['difficulty']){
+        return false;
+    }
+    if($fn != 'All' && $fn != 0 && $fn != $question['fn']){
+        return false;
+    }
+    return true;
 }
 
+if($_POST) {
+    $query = $db->selectAllQuestionsQuery();
+    $resarr = $query["data"]->fetchAll(PDO::FETCH_ASSOC);
+    $g = 0;
+    $dificulty = $_POST['select_difficulty'];
+    for($i = 0;$i < sizeof($resarr);$i++){
+        if(checkQuestion($resarr[$i],$_POST['select_category'],$_POST['select_difficulty'],$_POST['select_fn'])){
+            $result[$g] = $resarr[$i];
+            $g++;
+        }         
+    } 
 }
-     
 
 ?>
 
@@ -46,7 +60,7 @@ if(isset($_POST['select_category'])) {
 </header>   
 <div>
     <form action = "<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" >
-    <select name =  "select_category" id="test_selection" onchange="this.form.submit();">
+    <select name =  "select_category" id="test_selection">
         <option value="0" selected>Select category</option>
         <option value="All">All</option>
         <option value="1">1</option>
@@ -65,9 +79,11 @@ if(isset($_POST['select_category'])) {
     </select>
     
     <select name =  "select_fn" id="test_fn">
-        <option value="1" selected>Select fn</option>
+        <option value="0" selected>Select fn</option>
         <option value="All">All</option>
     </select>
+
+    <button id="start_test_button" class="smallspecialbutton" type ="submit" value = "Click">Show Results</button>
 
     </form>
     <h1>Manage Questions</h1>
