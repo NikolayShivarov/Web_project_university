@@ -6,9 +6,11 @@
     $review = $data['text'];
     $questionId = $data['questionId'];
     $userId = $_SESSION['userId'];
+    $userRating = $data['rating'];
 
     $db = new Database();
     $db->insertReviewQuery(['questionId' => $questionId, 'userId' => $userId, 'reviewText' => $review]);
+    $db->insertRatingQuery([ 'userId' => $userId, 'questionId' => $questionId,'rating' => $userRating]);
   }
 
 ?>

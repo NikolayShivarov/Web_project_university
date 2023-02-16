@@ -21,6 +21,7 @@
 
     <div id="popup" class="modal">
         <div class="modal-content">
+          <form>
             <span class="close">&times;</span>
             <div class = "centered">
               <label for="freeform">Review this question:</label>
@@ -30,28 +31,15 @@
               </textarea>
             </div>
             <div class = "centered">
+              <label for="ratenum">Rate this question between 1 and 10:</label>
+              <input id="ratenum" type="number" step="1" min="1" max="10" required/>
+            </div>      
+            <div class = "centered">
               <button id="sendR" class="specialbutton">
                   Submit
               </button>
             </div>        
-        </div>
-    </div>
-
-    <div id="popup2" class="modal">
-        <div class="modal-content">
-            <span class="close2">&times;</span>
-            <div class = "centered">
-              <label for="freeform">Rate this question:</label>
-            </div>
-            <div class = "centered">
-              <textarea id="freeform2" name="freeform2" rows="1" cols="2">
-              </textarea>
-            </div>
-            <div class = "centered">
-              <button id="sendRA" class="specialbutton">
-                  Submit
-              </button>
-            </div>        
+          </form>
         </div>
     </div>
 
@@ -86,12 +74,7 @@
                 <button id="sendfeedback" class="smallspecialbutton">
                     Add a Review
                 </button>
-              </div> 
-              <div id="rating">
-                <button id="sendrating" class="smallspecialbutton">
-                    Add a Rating
-                </button>
-              </div>                   
+              </div>                  
             </div> 
           </div>        
         </main>

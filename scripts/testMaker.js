@@ -8,25 +8,19 @@ function startQuiz() {
   var finishButton = document.getElementById('finish');
   var counter      = document.getElementById('counter');
   var feedbackbtn  = document.getElementById('sendfeedback');
-  var ratingbtn  = document.getElementById('sendrating');
   var sendReview   = document.getElementById('sendR');
-  var sendRating   = document.getElementById('sendRA');
   var p            = document.getElementById('text2');
   var review       = document.getElementById('freeform');
+  var rating       = document.getElementById('ratenum');
   var current      = 0;
   var answeredQuestions = [];
 
   var modal = document.getElementById("popup");
   var modal2 = document.getElementById("popup2");
   var span = document.getElementsByClassName("close")[0];
-  var span2 = document.getElementsByClassName("close2")[0];
 
   feedbackbtn.onclick = function() {
     modal.style.display = "block";
-  }
-
-  ratingbtn.onclick = function() {
-    modal2.style.display = "block";
   }
 
   function load(data){
@@ -37,38 +31,24 @@ function startQuiz() {
 
   }
 
-  sendReview.onclick = function() {
+  sendReview.onclick = function(event) {
+    event.preventDefault();
 
     var text = review.value;
+    var ratingT = rating.value;
 
     var rev = {
       'questionId': questions[current].questionId,
       'text': text,
+      'rating': ratingT
     };
 
     sendRequest('./src/add_review.php', { method: 'POST', data: `data=${JSON.stringify(rev)}` }, load, handleError);
     modal.style.display = "none";
   }
 
-  sendRating.onclick = function() {
-
-    var text = rating.value;
-
-    var rev = {
-      'questionId': questions[current].questionId,
-      'text': text,
-    };
-
-    sendRequest('./src/add_rating.php', { method: 'POST', data: `data=${JSON.stringify(rev)}` }, load, handleError);
-    modal2.style.display = "none";
-  }
-
   span.onclick = function() {
     modal.style.display = "none";
-  }
-
-  span2.onclick = function() {
-    modal2.style.display = "none";
   }
 
   window.onclick = function(event) {
@@ -86,7 +66,6 @@ function startQuiz() {
   finishButton.addEventListener("click",finish());
   finishButton.style.visibility = "hidden";
   feedbackbtn.style.visibility = "hidden";
-  ratingbtn.style.visibility = "hidden";
 
   function loadPrev(){
       if(current > 0){
@@ -224,7 +203,6 @@ function startQuiz() {
     
       finishButton.style.visibility = "hidden";
       feedbackbtn.style.visibility = "visible";
-      ratingbtn.style.visibility = "visible";
       arrowLeft.removeEventListener("click", loadPrev);
       arrowRight.removeEventListener("click", loadNext);
        
