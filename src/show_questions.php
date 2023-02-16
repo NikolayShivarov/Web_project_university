@@ -13,6 +13,13 @@ function deleteQuestion($questionId,$db){
      $query = $db->deleteRatingByQuestionIdQuery(['questionId'=>$questionId]);
 }
 
+function deleteAllQuestions($questions, $db){
+    for ($i = 0; $i < sizeof($questions); $i++) {
+        deleteQuestion($questions[$i]['id'],$db);
+    }
+}
+
+
 function checkQuestion($question,$category,$difficulty,$fn) {
     if($category != 'All' && $category != 0 && $category != $question['category']){
         return false;
@@ -37,6 +44,10 @@ if($_POST) {
             $g++;
         }         
     } 
+}
+
+if(array_key_exists('delete-all', $_POST)) {
+    deleteAllQuestions($result, $db);
 }
 
 ?>
@@ -90,7 +101,11 @@ if($_POST) {
     </select>
 
     <button id="start_test_button" class="smallspecialbutton" type ="submit" value = "Click">Show Results</button>
-
+    <form method="post">
+        <input onclick="return confirm('Do you want to delete all shown questions?');" type="submit" name="delete-all"
+                class="delete-all" value="delete-all" />
+         
+    </form> 
     </form>
     <h1>Manage Questions</h1>
     <table cellspacing="2" cellpadding="2" borders="1">
