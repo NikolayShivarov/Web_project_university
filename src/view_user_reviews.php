@@ -47,7 +47,11 @@
         <tr>
             <td><?php echo $questions[$i] ?></td>
             <td><?php echo $result[$i]['reviewText'] ?></td>
-            <td><?php echo $ratings[$i]['rating'] ?></td>    
+            <td><?php echo $ratings[$i]['rating'] ?></td>
+            <td>              
+            <a onclick="return confirm('Do you want to view this question?');" class="view-button" href="question_info.php?questionId=<?php
+                 echo $result[$i]['questionId'] ?>&action=view"><button class="view-btn">VIEW</button></a>
+            </td>    
             
        </tr>
 
