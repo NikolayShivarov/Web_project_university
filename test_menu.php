@@ -38,7 +38,7 @@
         <label for="ratenum2">Choose dificulty between 1 and 5</label>
         <input id="ratenum2" type="number" step="1" min="1" max="5"  value="1" required/>
     </div>  
-    <button id="start_test_button" class="smallspecialbutton" type ="submit" value = "Click">Start Test</button>
+    <button id="start_test_button" class="specialbutton" type ="submit" value = "Click">Start Test</button>
 </form>
 
 

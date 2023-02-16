@@ -13,7 +13,7 @@ function Question(questionText, answers, correctIndex, category, correctFeedback
   var questions = [];
 
 function load(data){
-  if(data === undefined){
+  if(data.length === 0){
     alert("No such questions !!!");
     window.location = './test_menu.php'
   }

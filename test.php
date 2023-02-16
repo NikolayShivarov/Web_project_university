@@ -69,6 +69,7 @@
                 </button>
               </div>
               <button id="finish" class="specialbutton">Finish</button>
+              <div id="statistic"></div>
               <div id="feedback">
                 <p id="text2"></p>
                 <button id="sendfeedback" class="smallspecialbutton">

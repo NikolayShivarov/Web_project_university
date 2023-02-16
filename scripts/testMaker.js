@@ -12,6 +12,7 @@ function startQuiz() {
   var p            = document.getElementById('text2');
   var review       = document.getElementById('freeform');
   var rating       = document.getElementById('ratenum');
+  var stats        = document.getElementById('statistic');
   var current      = 0;
   var answeredQuestions = [];
 
@@ -231,6 +232,8 @@ function startQuiz() {
           sendStatistic(questions[i].questionId,0);
         }
       }
+
+      stats.innerHTML = "Result: " + sum + " / " + all;
 
       loadQuestionReview();
     };
