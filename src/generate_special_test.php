@@ -34,15 +34,19 @@ if($fnNum == "All"){
 }else{
     $query = $db->selectQuestionsByFnQuery(['fn' => $fnNum]);
 }
-
-$result = $query["data"]->fetchAll(PDO::FETCH_ASSOC);
 $g = 0;
 $resArr = array();
+if ($dificulty!=0){
+$result = $query["data"]->fetchAll(PDO::FETCH_ASSOC);
 for($i = 0;$i < sizeof($result);$i++){
     if($result[$i]['difficulty'] == $dificulty){
         $resArr[$g] = $result[$i];
         $g++;
     }
+}
+}
+else{
+    $resArr = $query["data"]->fetchAll(PDO::FETCH_ASSOC); 
 }
 $g=0;
 

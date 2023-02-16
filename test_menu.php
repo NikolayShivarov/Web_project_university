@@ -36,7 +36,15 @@
     </div>  
     <div class = "centered">
         <label for="ratenum2">Choose dificulty between 1 and 5</label>
-        <input id="ratenum2" type="number" step="1" min="1" max="5"  value="1" required/>
+        <select id="ratenum2">
+            <option value = "0" selected>ALL</option> 
+            <option value = "1">1</option>
+            <option value = "2">2</option> 
+            <option value = "3">3</option> 
+            <option value = "4">4</option> 
+            <option value = "5">5</option>  
+        </select>
+
     </div>  
     <button id="start_test_button" class="specialbutton" type ="submit" value = "Click">Start Test</button>
 </form>
