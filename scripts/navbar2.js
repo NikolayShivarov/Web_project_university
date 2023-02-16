@@ -1,15 +1,6 @@
 var navbar;
 
 (function() {
-    /**
-     * Get the register button
-     */
-    // var register = document.getElementById('register');
-  
-    // /**
-    //  * Listen for click event on the register button
-    //  */
-    // register.addEventListener('click', sendForm);
     navbar = document.getElementById('nav');
     sendRequest('./is_admin.php', { method: 'GET', data: `category=All` }, load, err);
 })();

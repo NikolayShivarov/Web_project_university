@@ -233,9 +233,6 @@
 
             $sql = "SELECT MAX(id) AS max_id FROM questions";
             $this->selectMaxId = $this->connection->prepare($sql);
-        
-            // $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
-            // $this->selectStudentsWithMarks = $this->connection->prepare($sql);
         }
 
         public function createTableQuestions() {
