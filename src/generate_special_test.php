@@ -43,11 +43,24 @@ for($i = 0;$i < sizeof($result);$i++){
         $resArr[$g] = $result[$i];
         $g++;
     }
-    if($g == $maxQ){
-        break;
-    }
-} 
+}
+$g=0;
 
-echo json_encode($resArr);
+if(sizeof($resArr) <= $maxQ) echo json_encode($resArr);
+else{
+    $isIn = array();
+    for($i = 0; $i < sizeof($resArr); $i++) $isIn[$i] = 0;
+    $randArr = array();
+    while($g < $maxQ){
+        $r = rand(0,sizeof($resArr)-1);
+        while($isIn[$r] == 1) $r = rand(0,sizeof($resArr)-1);
+        $randArr[$g] = $resArr[$r];
+        $isIn[$r] = 1;
+        $g++;
+
+    }
+    echo json_encode($randArr);
+
+}
 exit(); ?>
 
