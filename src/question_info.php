@@ -24,16 +24,31 @@
 
     $query = $db->selectStatisticByIdQuery(["id" => $questionId]);
     $stats = $query["data"]->fetch(PDO::FETCH_ASSOC);
+    $percentage; 
+    if($stats['correct'] + $stats['wrong'] > 0 ){
+        $percentage = bcdiv($stats['correct'], $stats['correct'] + $stats['wrong'], 3);
+        $percentage = $percentage * 100;  
+    }
+    else {
+        $percentage = 111;
+    }
     
     $query = $db->selectRatingByQuestionIdQuery(["questionId" => $questionId]);
     $usernames2 = array();
+    $sum = 0;
     $ratings = $query["data"]->fetchAll(PDO::FETCH_ASSOC);
     for ($i = 0; $i < sizeof($ratings) ; $i++ ){
         $userId = $ratings[$i]['userId'];
         $query = $db->selectUserByIdQuery(["id" => $userId]);
         $data = $query["data"]->fetch(PDO::FETCH_ASSOC);
         $usernames2[$i] = $data['username'];
+        $sum += $ratings[$i]['rating'];
  }
+    
+    $avg = 15; 
+    if(sizeof($ratings) > 0){
+       $avg = bcdiv($sum, sizeof($ratings), 2);
+    }
     
 ?>
 
@@ -107,6 +122,9 @@
     </table>
 
     <h1>Here are the question statistics</h1>
+    <h1><?php if($percentage == 111) echo "Question have not been answered yet";
+       else echo $percentage."%"."  correct answer rate";
+    ?></h1>
 <table cellspacing="2" cellpadding="2" borders="1">
         <tr>
             <th>Correct</th>
@@ -123,6 +141,9 @@
     
 
     <h1>Here are the question ratings</h1>
+    <h1><?php if($avg == 15) echo "No ratings have been given yet";
+       else echo "Average rating: ".$avg;
+    ?></h1>
 <table cellspacing="2" cellpadding="2" borders="1">
         <tr>
             <th>User</th>
