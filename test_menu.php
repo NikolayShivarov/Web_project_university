@@ -26,8 +26,8 @@
 <body>   
 <div>
     
-
-<select id="test_selection" onchange="getSelectedCategory();">
+<form></form>
+<select id="test_fn" onchange="getSelectedCategory();">
     <option value="All" selected>All</option>
 </select>
 <button id="start_test_button" type ="submit" value = "Click" onclick ="passValue()" >Start Test</button>
