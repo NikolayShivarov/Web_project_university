@@ -30,12 +30,6 @@ function addFn(){
 window.setTimeout(addFn,100);
 var selectedFn = "All"; 
 
-function getSelectedFn()
-{
-    selectedFn = selectTest.value;
-    
-}
-
 function load(data){
     console.log(data);
 }
@@ -43,8 +37,16 @@ function handleError(data){
     console.log(data);
 }
     
-function passValue(){
-    localStorage.setItem("textvalue",selectedCategory);
+var btn = document.getElementById('start_test_button');
+
+btn.onclick = function (event){
+    event.preventDefault();
+    var maxQ = document.getElementById('ratenum1').value;
+    var dificulty = document.getElementById('ratenum2').value;
+    selectedFn = selectTest.value;
+    localStorage.setItem("fnNum",selectedFn);
+    localStorage.setItem("maxQ",maxQ);
+    localStorage.setItem("dificulty",dificulty);
     window.location = './test.php';
 }        
 

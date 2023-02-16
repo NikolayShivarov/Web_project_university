@@ -26,12 +26,20 @@
 <body>   
 <div>
     
-<form></form>
-<select id="test_fn" onchange="getSelectedCategory();">
-    <option value="All" selected>All</option>
-</select>
-<button id="start_test_button" type ="submit" value = "Click" onclick ="passValue()" >Start Test</button>
-
+<form>
+    <select id="test_fn" onchange="getSelectedCategory();">
+        <option value="All" selected>All</option>
+    </select>
+    <div class = "centered">
+        <label for="ratenum1">Choose max questions</label>
+        <input id="ratenum1" type="number" step="1" min="1" max="100" value="10" required/>
+    </div>  
+    <div class = "centered">
+        <label for="ratenum2">Choose dificulty between 1 and 5</label>
+        <input id="ratenum2" type="number" step="1" min="1" max="5"  value="1" required/>
+    </div>  
+    <button id="start_test_button" class="smallspecialbutton" type ="submit" value = "Click">Start Test</button>
+</form>
 
 
   
