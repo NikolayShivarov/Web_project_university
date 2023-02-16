@@ -6,6 +6,8 @@
     $query = $db->selectReviewsByUserIdQuery(["userId" => $userId]);
     $result = $query["data"]->fetchAll(PDO::FETCH_ASSOC);
     $questions = array();
+    $query = $db->selectRatingByUserIdQuery(["userId" => $userId]);
+    $ratings = $query["data"]->fetchAll(PDO::FETCH_ASSOC);
     for ($i = 0; $i < sizeof($result) ; $i++ ){
            $questionId = $result[$i]['questionId'];
            $query = $db->selectQuestionTextByIdQuery(["id" => $questionId]);
@@ -39,11 +41,13 @@
         <tr>
             <th>Question Text</th>
             <th>Review</th>
+            <th>Rating</th>
        </tr>
        <?php for ($i = 0; $i < sizeof($result) ; $i++ ){ ?>
         <tr>
             <td><?php echo $questions[$i] ?></td>
-            <td><?php echo $result[$i]['reviewText'] ?></td>   
+            <td><?php echo $result[$i]['reviewText'] ?></td>
+            <td><?php echo $ratings[$i]['rating'] ?></td>    
             
        </tr>
 
