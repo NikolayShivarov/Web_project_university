@@ -47,6 +47,16 @@ function startQuiz() {
     modal.style.display = "none";
   }
 
+   function sendStatistic(questionId,isTrue) {
+
+    var rev = {
+      'questionId': questionId,
+      'isTrue': isTrue,
+    };
+
+    sendRequest('./src/add_statistic.php', { method: 'POST', data: `data=${JSON.stringify(rev)}` }, load, handleError);
+  }
+
   span.onclick = function() {
     modal.style.display = "none";
   }
@@ -215,6 +225,10 @@ function startQuiz() {
       for(var i = 0;i < questions.length; i += 1){
         if (answeredQuestions[i] === questions[i].correctIndex){
           sum += 1;
+          sendStatistic(questions[i].questionId,1);
+        }
+        else{
+          sendStatistic(questions[i].questionId,0);
         }
       }
 

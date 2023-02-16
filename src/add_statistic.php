@@ -3,7 +3,7 @@
   session_start();
   if ($_POST) {
     $data = json_decode($_POST['data'], true);
-    $point = intval($data['text']);
+    $point = intval($data['isTrue']);
     $questionId = $data['questionId'];
 
     $db = new Database();
