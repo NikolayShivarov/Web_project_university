@@ -13,6 +13,10 @@ function Question(questionText, answers, correctIndex, category, correctFeedback
   var questions = [];
 
 function load(data){
+  if(data === undefined){
+    alert("No such questions !!!");
+    window.location = './test_menu.php'
+  }
   for(var i = 0; i < data.length; i++) {
     var question = data[i].questiontext;
     const answers = [];
@@ -46,8 +50,4 @@ var rev = {
   'dificulty': dificulty
 };
 
-if(fnNum === undefined || fnNum === 'All'){
-  sendRequest('./src/generate_test.php', { method: 'GET', data: `category=All` }, load, handleError);
-}else{
-  sendRequest('./src/generate_special_test.php', { method: 'POST', data: `data=${JSON.stringify(rev)}` }, load, handleError);
-}
+sendRequest('./src/generate_special_test.php', { method: 'POST', data: `data=${JSON.stringify(rev)}` }, load, handleError);

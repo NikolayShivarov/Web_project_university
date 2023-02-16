@@ -18,6 +18,8 @@ require_once 'db.php';
 $fnNum;
 $maxQ;
 $dificulty;
+$query;
+
 $db = new Database();
 
 if ($_POST) {
@@ -26,7 +28,13 @@ if ($_POST) {
     $maxQ = $data['maxQ'];
     $dificulty = $data['dificulty'];
 }
-$query = $db->selectQuestionsByFnQuery(['fn' => $fnNum]);
+
+if($fnNum == "All"){
+    $query = $db->selectAllQuestionsQuery();
+}else{
+    $query = $db->selectQuestionsByFnQuery(['fn' => $fnNum]);
+}
+
 $result = $query["data"]->fetchAll(PDO::FETCH_ASSOC);
 $g = 0;
 $resArr = array();
