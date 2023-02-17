@@ -51,7 +51,11 @@
             <td>              
             <a onclick="return confirm('Do you want to view this question?');" class="view-button" href="question_info.php?questionId=<?php
                  echo $result[$i]['questionId'] ?>&action=view"><button class="view-btn">VIEW</button></a>
-            </td>    
+            </td>
+            <td>
+                <a onclick="return confirm('Do you want to update this review?');" class="delete-button" href="updateReview.php?questionId=<?php
+                echo $result[$i]['questionId'] ?>&action=update"><button class="delete-btn">UPDATE</button></a>
+            </td>
             
        </tr>
 

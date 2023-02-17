@@ -37,6 +37,7 @@
         private $selectRatingByQuestionId;
         private $deleteRatingByQuestionId;
         private $selectMaxId;
+        private $updateReview;
 
 
         private $tableStudents;
@@ -233,6 +234,9 @@
 
             $sql = "SELECT MAX(id) AS max_id FROM questions";
             $this->selectMaxId = $this->connection->prepare($sql);
+
+            $sql = "UPDATE reviews SET reviewText = :reviewText WHERE userId = :userId AND questionId = :questionId";
+            $this->updateReview = $this->connection->prepare($sql);
         }
 
         public function createTableQuestions() {
@@ -683,6 +687,16 @@
                 $this->selectMaxId->execute();
 
                 return ["success" => true, "data" => $this->selectMaxId];
+            } catch(PDOException $e) {
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function updateReviewQuery($data) {
+            try {
+                $this->updateReview->execute($data);
+                return array("success" => true);
             } catch(PDOException $e) {
                 $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
